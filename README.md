@@ -2,6 +2,9 @@
 
 基于 **Tauri v2 + Vue 3 + TypeScript + Rust** 构建的《逃离塔科夫》（Escape from Tarkov）轻量级桌面端地图定位工具。通过监听本地游戏截图文件名与客户端日志实现实时定位与自动切图，**纯外部文件监听、不读取游戏内存、不注入任何进程**，符合反作弊合规要求。
 
+<img width="1282" height="842" alt="image" src="https://github.com/user-attachments/assets/9fc43675-626d-48ea-aa00-d1b359bbcf8f" />
+
+
 ---
 
 ## 核心功能
