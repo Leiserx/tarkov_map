@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Close, CopyDocument, Minus, Setting } from '@element-plus/icons-vue';
+import { Close, CopyDocument, Minus, Setting, UserFilled } from '@element-plus/icons-vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import type { ScreenshotCoord, TarkovMapConfig, WatcherStatus } from '@/types';
+import type { ScreenshotCoord, TarkovMapConfig, TeamRoomState, WatcherStatus } from '@/types';
 
 defineProps<{
   maps: TarkovMapConfig[];
@@ -13,6 +13,7 @@ defineProps<{
   latestCoord: ScreenshotCoord | null;
   watcherStatus: WatcherStatus;
   screenshotDir: string;
+  teamState: TeamRoomState;
 }>();
 
 const emit = defineEmits<{
@@ -22,6 +23,7 @@ const emit = defineEmits<{
   (e: 'update:showLabels', val: boolean): void;
   (e: 'update:showPoints', val: boolean): void;
   (e: 'openSettings'): void;
+  (e: 'openTeam'): void;
 }>();
 
 const appWindow = getCurrentWindow();
@@ -132,6 +134,19 @@ function handleClose() {
           <span>{{ watcherStatus.screenshotWatching ? '监听中' : '路径异常' }}</span>
         </button>
       </el-tooltip>
+
+      <button
+        type="button"
+        class="toolbar-chip"
+        :class="{ 'is-active': teamState.inRoom }"
+        @click="emit('openTeam')"
+      >
+        <el-icon :size="14"><UserFilled /></el-icon>
+        <span v-if="teamState.inRoom">
+          {{ teamState.roomCode }} ({{ teamState.memberCount }}人)
+        </span>
+        <span v-else>组队</span>
+      </button>
 
       <button type="button" class="toolbar-chip" @click="emit('openSettings')">
         <el-icon :size="14"><Setting /></el-icon>

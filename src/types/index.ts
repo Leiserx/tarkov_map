@@ -64,6 +64,7 @@ export interface SvgPosition {
 
 export interface AppSettings {
   playerName: string;
+  lastServerAddr: string;
   screenshotDir: string;
   logsDir: string;
   autoDeleteScreenshot: boolean;
@@ -88,4 +89,37 @@ export interface DetectedPaths {
 export interface MapDetectedPayload {
   mapId: string;
   rawLocation: string;
+}
+
+export interface TeamMemberInfo {
+  peerId: string;
+  playerName: string;
+  mapId: string;
+  x: number | null;
+  y: number | null;
+  z: number | null;
+  updatedAt: number;
+}
+
+export interface TeamRoomState {
+  inRoom: boolean;
+  isHost: boolean;
+  mode: string;
+  selfPeerId: string;
+  roomCode: string;
+  fullCode: string;
+  memberCount: number;
+  members: TeamMemberInfo[];
+}
+
+export interface ServerRoomSummary {
+  roomId: string;
+  roomName: string;
+  hostName: string;
+  memberCount: number;
+}
+
+export interface ServerConnectionStatus {
+  connected: boolean;
+  addr: string;
 }

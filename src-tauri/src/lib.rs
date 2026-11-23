@@ -1,5 +1,7 @@
 mod config;
+mod p2p;
 mod parser;
+mod server_client;
 mod types;
 mod watcher;
 
@@ -7,7 +9,9 @@ use std::sync::Mutex;
 use tauri::{AppHandle, Manager, State};
 
 use crate::config::{detect_default_paths as detect_paths_impl, load_settings, save_settings_to_disk};
-use crate::types::{AppSettings, DetectedPaths, WatcherStatus};
+use crate::p2p::P2pManager;
+use crate::server_client::{ServerClientManager, ServerConnectionStatus};
+use crate::types::{AppSettings, DetectedPaths, TeamRoomState, WatcherStatus};
 use crate::watcher::WatcherManager;
 
 struct AppState(Mutex<WatcherManager>);
@@ -49,6 +53,131 @@ fn get_watcher_status(state: State<'_, AppState>) -> WatcherStatus {
         .unwrap_or_default()
 }
 
+#[tauri::command]
+async fn create_room(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+    player_name: String,
+    map_id: String,
+) -> Result<TeamRoomState, String> {
+    let _ = srv.leave_room(&app).await;
+    p2p.create_room(&app, player_name, map_id).await
+}
+
+#[tauri::command]
+async fn join_room(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+    code: String,
+    player_name: String,
+    map_id: String,
+) -> Result<TeamRoomState, String> {
+    let _ = srv.leave_room(&app).await;
+    p2p.join_room(&app, code, player_name, map_id).await
+}
+
+#[tauri::command]
+async fn leave_room(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+) -> Result<TeamRoomState, String> {
+    let _ = srv.leave_room(&app).await;
+    Ok(p2p.leave_room(&app).await)
+}
+
+#[tauri::command]
+async fn get_team_state(
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+) -> Result<TeamRoomState, String> {
+    let srv_state = srv.get_room_state().await;
+    if srv_state.in_room {
+        return Ok(srv_state);
+    }
+    Ok(p2p.get_state().await)
+}
+
+#[tauri::command]
+async fn sync_team_position(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+    player_name: String,
+    map_id: String,
+    x: Option<f64>,
+    y: Option<f64>,
+    z: Option<f64>,
+) -> Result<(), String> {
+    if srv.get_room_state().await.in_room {
+        srv.sync_position(player_name, map_id, x, y, z).await;
+    } else {
+        p2p.sync_position(&app, player_name, map_id, x, y, z).await;
+    }
+    Ok(())
+}
+
+#[tauri::command]
+async fn server_connect(
+    app: AppHandle,
+    srv: State<'_, ServerClientManager>,
+    addr: String,
+) -> Result<ServerConnectionStatus, String> {
+    srv.connect(&app, addr).await
+}
+
+#[tauri::command]
+async fn server_disconnect(
+    app: AppHandle,
+    srv: State<'_, ServerClientManager>,
+) -> Result<(), String> {
+    srv.disconnect(&app).await;
+    Ok(())
+}
+
+#[tauri::command]
+async fn server_get_status(
+    srv: State<'_, ServerClientManager>,
+) -> Result<ServerConnectionStatus, String> {
+    Ok(srv.get_status().await)
+}
+
+#[tauri::command]
+async fn server_list_rooms(srv: State<'_, ServerClientManager>) -> Result<(), String> {
+    srv.list_rooms().await
+}
+
+#[tauri::command]
+async fn server_create_room(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+    room_name: String,
+    passcode: String,
+    player_name: String,
+    map_id: String,
+) -> Result<(), String> {
+    p2p.leave_room(&app).await;
+    srv.create_room(room_name, passcode, player_name, map_id)
+        .await
+}
+
+#[tauri::command]
+async fn server_join_room(
+    app: AppHandle,
+    p2p: State<'_, P2pManager>,
+    srv: State<'_, ServerClientManager>,
+    room_id: String,
+    passcode: String,
+    player_name: String,
+    map_id: String,
+) -> Result<(), String> {
+    p2p.leave_room(&app).await;
+    srv.join_room(room_id, passcode, player_name, map_id).await
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -58,13 +187,26 @@ pub fn run() {
             let mut manager = WatcherManager::new(initial_settings.clone());
             manager.restart(app.handle(), initial_settings);
             app.manage(AppState(Mutex::new(manager)));
+            app.manage(P2pManager::new());
+            app.manage(ServerClientManager::new());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             get_settings,
             save_settings,
             detect_default_paths,
-            get_watcher_status
+            get_watcher_status,
+            create_room,
+            join_room,
+            leave_room,
+            get_team_state,
+            sync_team_position,
+            server_connect,
+            server_disconnect,
+            server_get_status,
+            server_list_rooms,
+            server_create_room,
+            server_join_room
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

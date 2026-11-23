@@ -10,6 +10,7 @@ import type {
   ScreenshotCoord,
   SvgPosition,
   TarkovMapConfig,
+  TeamMemberInfo,
 } from '@/types';
 
 const props = defineProps<{
@@ -19,6 +20,7 @@ const props = defineProps<{
   showLabels: boolean;
   showPoints: boolean;
   playerName: string;
+  teammates: TeamMemberInfo[];
 }>();
 
 const viewportRef = ref<HTMLElement | null>(null);
@@ -145,6 +147,29 @@ const renderedPoints = computed(() => {
   });
 
   return { extracts, transits };
+});
+
+const renderedTeammates = computed(() => {
+  if (svgWidth.value <= 0 || svgHeight.value <= 0) return [];
+  return props.teammates
+    .filter(
+      (m) => m.mapId === props.mapConfig.id && m.x !== null && m.z !== null
+    )
+    .map((m) => {
+      const { svgX, svgY } = worldPointToSvg(
+        m.x as number,
+        m.z as number,
+        props.mapConfig,
+        svgWidth.value,
+        svgHeight.value
+      );
+      return {
+        peerId: m.peerId,
+        playerName: m.playerName,
+        svgX,
+        svgY,
+      };
+    });
 });
 
 function extractSvgDimensions(rawSvg: string): { w: number; h: number } {
@@ -378,7 +403,8 @@ defineExpose({
           playerSvgPos ||
           renderedLabels.length > 0 ||
           renderedPoints.extracts.length > 0 ||
-          renderedPoints.transits.length > 0
+          renderedPoints.transits.length > 0 ||
+          renderedTeammates.length > 0
         "
         class="marker-overlay"
         :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
@@ -432,6 +458,20 @@ defineExpose({
             />
             <text x="9" y="0" class="point-label" fill="#E9D5FF">
               {{ tr.description }}
+            </text>
+          </g>
+        </g>
+
+        <!-- 队友位置标记（仅位置圆点与名称，不渲染朝向） -->
+        <g v-if="renderedTeammates.length > 0" class="teammates-layer">
+          <g
+            v-for="mate in renderedTeammates"
+            :key="mate.peerId"
+            :transform="`translate(${mate.svgX}, ${mate.svgY}) scale(${markerScale})`"
+          >
+            <circle cx="0" cy="0" r="6" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+            <text x="0" y="-15" text-anchor="middle" class="teammate-name-tag">
+              {{ mate.playerName }}
             </text>
           </g>
         </g>
@@ -565,6 +605,17 @@ defineExpose({
   font-size: 12px;
   font-weight: 700;
   fill: #ffd166;
+  dominant-baseline: central;
+  stroke: rgba(10, 12, 16, 0.96);
+  stroke-width: 3.5px;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+}
+
+.teammate-name-tag {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #38bdf8;
   dominant-baseline: central;
   stroke: rgba(10, 12, 16, 0.96);
   stroke-width: 3.5px;
