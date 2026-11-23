@@ -1,0 +1,2536 @@
+{
+  "streets-of-tarkov": [
+    {
+      "text": "Primorsky 大道",
+      "position": [
+        9,
+        308
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -90,
+      "size": 80
+    },
+    {
+      "text": "Primorsky 大道",
+      "position": [
+        9,
+        104
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -90,
+      "size": 80
+    },
+    {
+      "text": "Primorsky 大道",
+      "position": [
+        9,
+        -80
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -90,
+      "size": 80
+    },
+    {
+      "text": "Kilmov 街",
+      "position": [
+        125,
+        10
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Kilmov 街",
+      "position": [
+        -104,
+        28
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 10,
+      "size": 80
+    },
+    {
+      "text": "Nikitskaya 街",
+      "position": [
+        -125,
+        210
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Verhnyaya 街",
+      "position": [
+        -112,
+        361
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Malevecha 街",
+      "position": [
+        -200,
+        290
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -64,
+      "size": 80
+    },
+    {
+      "text": "Chekannaya 街",
+      "position": [
+        111,
+        251
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Nizhnyaya 街",
+      "position": [
+        -101,
+        441
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Razvedchikov 街",
+      "position": [
+        174,
+        430
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -30,
+      "size": 80
+    },
+    {
+      "text": "Zmejskij 巷",
+      "position": [
+        140,
+        150
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -68,
+      "size": 80
+    },
+    {
+      "text": "Kamchatskaya 街",
+      "position": [
+        232,
+        100
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -90,
+      "size": 80
+    },
+    {
+      "text": "Kilmov 购物中心",
+      "position": [
+        -128,
+        -35
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "Beluga 饭店",
+      "position": [
+        -45,
+        -52
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "Cardinal 公寓",
+      "position": [
+        99,
+        -71
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "建筑工地",
+      "position": [
+        230,
+        295
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "Lexos 车行",
+      "position": [
+        66,
+        305
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "Sparja 杂货店",
+      "position": [
+        140,
+        300
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "剧院",
+      "position": [
+        -175,
+        400
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "内务部",
+      "position": [
+        -218,
+        135
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "Pinewood 酒店",
+      "position": [
+        -35,
+        64
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "酒吧",
+      "position": [
+        65,
+        398
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Concordia 公寓",
+      "position": [
+        140,
+        362
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Cardinal 银行",
+      "position": [
+        89,
+        -20
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "展览馆",
+      "position": [
+        239,
+        -60
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Sparja 货运",
+      "position": [
+        -64,
+        166
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "憨包汪",
+      "position": [
+        -30,
+        138
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "邮局",
+      "position": [
+        42,
+        97
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "药店 #1",
+      "position": [
+        42,
+        160
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "金融办",
+      "position": [
+        -173,
+        226
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "街角餐厅",
+      "position": [
+        -197,
+        340
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "药店 #2",
+      "position": [
+        -43,
+        335
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "药店 #3",
+      "position": [
+        90,
+        -277
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Tar银行",
+      "position": [
+        67,
+        230
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "学校",
+      "position": [
+        211,
+        129
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "宠物医院",
+      "position": [
+        222,
+        173
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "红浪漫",
+      "position": [
+        -212,
+        300
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "家庭商店",
+      "position": [
+        -223,
+        279
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "标点酒店",
+      "position": [
+        -200,
+        248
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "南方酒店",
+      "position": [
+        -175,
+        297
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "废弃工厂",
+      "position": [
+        -119,
+        287
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "餐吧",
+      "position": [
+        -80,
+        235
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Primorskij 49",
+      "position": [
+        -13,
+        244
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Prestigio 咖啡",
+      "position": [
+        39,
+        230
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -45,
+      "size": 60
+    },
+    {
+      "text": "Bilbo 咖啡",
+      "position": [
+        -70,
+        343
+      ],
+      "layerId": "Ground_Level",
+      "size": 60
+    }
+  ],
+  "ground-zero": [
+    {
+      "text": "TerraGroup",
+      "position": [
+        -50,
+        0
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "天上人间",
+      "position": [
+        150,
+        1
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "聚变大厦",
+      "position": [
+        141,
+        142
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "帝国大厦",
+      "position": [
+        14,
+        201
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "洞悉资本",
+      "position": [
+        115,
+        285
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "Nakatani 大厦",
+      "position": [
+        2,
+        324
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "元素国际",
+      "position": [
+        80,
+        -118
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "绿洲",
+      "position": [
+        115,
+        104
+      ],
+      "layerId": "Second_Floor",
+      "size": 70
+    },
+    {
+      "text": "酒商店",
+      "position": [
+        115,
+        30
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Tar银行",
+      "position": [
+        43,
+        150
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "GAGRIN 酒店",
+      "position": [
+        58,
+        234
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "车展厅",
+      "position": [
+        97,
+        223
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "科学办",
+      "position": [
+        -13,
+        48
+      ],
+      "layerId": "Second_Floor",
+      "size": 60
+    }
+  ],
+  "ground-zero-21": [
+    {
+      "text": "TerraGroup",
+      "position": [
+        -50,
+        0
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "天上人间",
+      "position": [
+        150,
+        1
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "聚变大厦",
+      "position": [
+        141,
+        142
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "帝国大厦",
+      "position": [
+        14,
+        201
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "洞悉资本",
+      "position": [
+        115,
+        285
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "Nakatani 大厦",
+      "position": [
+        2,
+        324
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "元素国际",
+      "position": [
+        80,
+        -118
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "绿洲",
+      "position": [
+        115,
+        104
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "酒商店",
+      "position": [
+        115,
+        30
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Tar银行",
+      "position": [
+        43,
+        150
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "GAGRIN 酒店",
+      "position": [
+        58,
+        234
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "车展厅",
+      "position": [
+        97,
+        223
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "科学办",
+      "position": [
+        -13,
+        48
+      ],
+      "layerId": "Ground_Level",
+      "size": 60
+    }
+  ],
+  "customs": [
+    {
+      "text": "海关办",
+      "position": [
+        -215,
+        -119
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "宿舍",
+      "position": [
+        200,
+        150
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "新加油站",
+      "position": [
+        404,
+        31
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "老加油站",
+      "position": [
+        331,
+        -173
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "要塞",
+      "position": [
+        201,
+        -127
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "危房",
+      "position": [
+        83,
+        -153
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "主播房",
+      "position": [
+        567,
+        -67
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "大桥",
+      "position": [
+        -69,
+        9
+      ],
+      "layerId": "Ground_Level",
+      "rotation": "6",
+      "size": 90
+    },
+    {
+      "text": "狙击丘",
+      "position": [
+        110,
+        85
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "仓储区",
+      "position": [
+        -288,
+        -134
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "拖车停车场",
+      "position": [
+        -211,
+        -219
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "破桥",
+      "position": [
+        -66,
+        46
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "修车间",
+      "position": [
+        106,
+        -90
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "狙击脊",
+      "position": [
+        491,
+        63
+      ],
+      "layerId": "Ground_Level",
+      "rotation": "5"
+    },
+    {
+      "text": "老工地",
+      "position": [
+        75,
+        -9
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "建筑框架",
+      "position": [
+        200,
+        -13
+      ],
+      "layerId": "Ground_Level",
+      "rotation": "-9"
+    },
+    {
+      "text": "三号仓库",
+      "position": [
+        390,
+        -94
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "火车站",
+      "position": [
+        472,
+        -67
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "7号仓",
+      "position": [
+        555,
+        -118
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "军事基地检查站",
+      "position": [
+        572,
+        0
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "公交站",
+      "position": [
+        238,
+        53
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    },
+    {
+      "text": "4号仓",
+      "position": [
+        333,
+        -67
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "输电塔",
+      "position": [
+        497,
+        110
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "17号仓",
+      "position": [
+        46,
+        -59
+      ],
+      "layerId": "Ground_Level",
+      "size": 90
+    }
+  ],
+  "factory": [
+    {
+      "text": "办公楼",
+      "position": [
+        21,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "主办公室",
+      "position": [
+        15.5,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "踹门房",
+      "position": [
+        24.5,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "上锁办",
+      "position": [
+        30.5,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "北楼梯",
+      "position": [
+        35,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "南楼梯",
+      "position": [
+        9,
+        39
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "天桥",
+      "position": [
+        34,
+        26
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "连接",
+      "position": [
+        29.5,
+        17
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "更衣室",
+      "position": [
+        29,
+        41
+      ],
+      "layerId": "Second_Floor",
+      "size": 80
+    },
+    {
+      "text": "浴室",
+      "position": [
+        15,
+        41
+      ],
+      "layerId": "Second_Floor",
+      "size": 80
+    },
+    {
+      "text": "洞",
+      "position": [
+        20,
+        42
+      ],
+      "layerId": "Second_Floor",
+      "size": 80
+    },
+    {
+      "text": "平台",
+      "position": [
+        -3,
+        37
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "服务器",
+      "position": [
+        -21,
+        27
+      ],
+      "layerId": "Second_Floor",
+      "size": 80
+    },
+    {
+      "text": "医疗帐篷",
+      "position": [
+        -18,
+        -29
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "筒仓",
+      "position": [
+        4.5,
+        10.5
+      ],
+      "layerId": "Ground_Floor"
+    },
+    {
+      "text": "坠机",
+      "position": [
+        30,
+        -8.5
+      ],
+      "layerId": "Third_Floor",
+      "size": 80
+    },
+    {
+      "text": "坑道",
+      "position": [
+        -1,
+        16
+      ],
+      "layerId": "Basement",
+      "size": 80
+    },
+    {
+      "text": "地下贮藏",
+      "position": [
+        -2,
+        -24.5
+      ],
+      "layerId": "Basement",
+      "size": 80
+    },
+    {
+      "text": "Scav 碉堡",
+      "position": [
+        -20.5,
+        23
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "蓝集装箱",
+      "position": [
+        -18,
+        50
+      ],
+      "layerId": "Ground_Floor"
+    },
+    {
+      "text": "木屋",
+      "position": [
+        -45.5,
+        61
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "玻璃通",
+      "position": [
+        68.25,
+        -20
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "锅炉",
+      "position": [
+        56,
+        5
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "泵站",
+      "position": [
+        41,
+        -11
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "东走廊",
+      "position": [
+        44,
+        -36
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "叉车区",
+      "position": [
+        66,
+        -42
+      ],
+      "layerId": "Ground_Floor",
+      "size": 80
+    },
+    {
+      "text": "起重机",
+      "position": [
+        18,
+        4
+      ],
+      "layerId": "Third_Floor"
+    }
+  ],
+  "night-factory": [
+    {
+      "text": "办公楼",
+      "position": [
+        21,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "主办公室",
+      "position": [
+        15.5,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "踹门房",
+      "position": [
+        24.5,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "上锁办",
+      "position": [
+        30.5,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "北楼梯",
+      "position": [
+        35,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "南楼梯",
+      "position": [
+        9,
+        39
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "天桥",
+      "position": [
+        34,
+        26
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "连接",
+      "position": [
+        29.5,
+        17
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "更衣室",
+      "position": [
+        29,
+        41
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "浴室",
+      "position": [
+        15,
+        41
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "洞",
+      "position": [
+        20,
+        42
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "平台",
+      "position": [
+        -3,
+        37
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "服务器",
+      "position": [
+        -21,
+        27
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "医疗帐篷",
+      "position": [
+        -18,
+        -29
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "筒仓",
+      "position": [
+        4.5,
+        10.5
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "坠机",
+      "position": [
+        30,
+        -8.5
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "坑道",
+      "position": [
+        -1,
+        16
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "地下贮藏",
+      "position": [
+        -2,
+        -24.5
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Scav 碉堡",
+      "position": [
+        -20.5,
+        23
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "蓝集装箱",
+      "position": [
+        -18,
+        50
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "木屋",
+      "position": [
+        -45.5,
+        61
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "玻璃通",
+      "position": [
+        68.25,
+        -20
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "锅炉",
+      "position": [
+        56,
+        5
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "泵站",
+      "position": [
+        41,
+        -11
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "东走廊",
+      "position": [
+        44,
+        -36
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "叉车区",
+      "position": [
+        66,
+        -42
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "起重机",
+      "position": [
+        18,
+        4
+      ],
+      "layerId": "Ground_Level"
+    }
+  ],
+  "interchange": [
+    {
+      "text": "发电站",
+      "position": [
+        -186.4,
+        -318.7
+      ],
+      "layerId": "Ground_Level",
+      "size": 100
+    },
+    {
+      "text": "Go 卡丁",
+      "position": [
+        155,
+        -253
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "四帐",
+      "position": [
+        158,
+        -78.5
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "货物集装箱区",
+      "position": [
+        68.2,
+        312.9
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "破墙",
+      "position": [
+        -260.2,
+        123.8
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "坡道",
+      "position": [
+        -175.5,
+        145.1
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Oli 塔",
+      "position": [
+        202.3,
+        219.4
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Idea 塔",
+      "position": [
+        46.5,
+        -358.5
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "Scav 营地",
+      "position": [
+        263.2,
+        -11.1
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "高速工地",
+      "position": [
+        373.5,
+        -391.2
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "车库 A区",
+      "position": [
+        33,
+        -222
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "车库 B区",
+      "position": [
+        47,
+        -112
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "车库 C区",
+      "position": [
+        0,
+        47
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "车库 D区",
+      "position": [
+        20,
+        138
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "憨包汪",
+      "position": [
+        -27,
+        -103
+      ],
+      "layerId": "Second_Floor",
+      "size": 65
+    }
+  ],
+  "the-lab": [
+    {
+      "text": "停车场",
+      "position": [
+        -230,
+        -400
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "木梯1",
+      "position": [
+        -246,
+        -379
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "木梯2",
+      "position": [
+        -216,
+        -379
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "主工作区",
+      "position": [
+        -172,
+        -342
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "谈判室",
+      "position": [
+        -148,
+        -398
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "蓝卡",
+      "position": [
+        -130,
+        -398
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "黑卡",
+      "position": [
+        -130,
+        -356
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "机房",
+      "position": [
+        -125,
+        -308
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "机库隧道",
+      "position": [
+        -116,
+        -266
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "机库",
+      "position": [
+        -163,
+        -269
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "机库大门",
+      "position": [
+        -170,
+        -248
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "Lecture Hall",
+      "position": [
+        -207,
+        -305
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "消遣区",
+      "position": [
+        -221,
+        -343
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "健身房",
+      "position": [
+        -236,
+        -302
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "♂更衣室",
+      "position": [
+        -241,
+        -280
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "♀更衣室",
+      "position": [
+        -232,
+        -280
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "锅炉房",
+      "position": [
+        -259,
+        -366
+      ],
+      "layerId": "Technical_Level",
+      "size": 90
+    },
+    {
+      "text": "营房",
+      "position": [
+        -260,
+        -319
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "接待处",
+      "position": [
+        -260,
+        -342
+      ],
+      "layerId": "First_Level",
+      "size": 90
+    },
+    {
+      "text": "管理办",
+      "position": [
+        -260,
+        -364
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "红紫卡",
+      "position": [
+        -254,
+        -320
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "安保房",
+      "position": [
+        -244,
+        -378
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "黄卡",
+      "position": [
+        -215,
+        -379
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "会议室",
+      "position": [
+        -229,
+        -343
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "餐厅",
+      "position": [
+        -219,
+        -302
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "办公室 #1",
+      "position": [
+        -189,
+        -401
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "办公室 #2",
+      "position": [
+        -149,
+        -401
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "医务室",
+      "position": [
+        -130,
+        -401
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "绿卡",
+      "position": [
+        -130,
+        -361
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "控制室",
+      "position": [
+        -169,
+        -288
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    },
+    {
+      "text": "实验室走廊 #2",
+      "position": [
+        -250,
+        -281
+      ],
+      "layerId": "Second_Level",
+      "size": 90
+    }
+  ],
+  "lighthouse": [
+    {
+      "text": "火车站",
+      "position": [
+        -30,
+        -882
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "毒品实验室",
+      "position": [
+        -120,
+        -841
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "污水处理厂区",
+      "position": [
+        -65,
+        -600
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "1厂",
+      "position": [
+        40,
+        -618
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "2厂",
+      "position": [
+        -97,
+        -737
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "3厂",
+      "position": [
+        -189,
+        -665
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "管道",
+      "position": [
+        -182,
+        -552
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "门哨",
+      "position": [
+        18,
+        -453
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "小岛",
+      "position": [
+        -177,
+        -356
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "木屋",
+      "position": [
+        -278,
+        -323
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "村庄",
+      "position": [
+        -162,
+        -225
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "便利店",
+      "position": [
+        -55,
+        -288
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "红砖房",
+      "position": [
+        -75,
+        -284
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "山边小屋",
+      "position": [
+        -151,
+        -243
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "船屋",
+      "position": [
+        125,
+        -153
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "枯树山",
+      "position": [
+        62,
+        -60
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "建筑工地",
+      "position": [
+        0,
+        -188
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "派克峰度假村",
+      "position": [
+        -107,
+        -53
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "豪宅",
+      "position": [
+        -133,
+        100
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "网球场",
+      "position": [
+        -70,
+        129
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "灯塔老登岛",
+      "position": [
+        382,
+        496
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "坠机点",
+      "position": [
+        -125,
+        296
+      ],
+      "layerId": "Ground_Level"
+    }
+  ],
+  "reserve": [
+    {
+      "text": "K 仓",
+      "position": [
+        28,
+        -102
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "白皇",
+      "position": [
+        -25,
+        180
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -15
+    },
+    {
+      "text": "白兵",
+      "position": [
+        -104,
+        93
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14
+    },
+    {
+      "text": "黑主",
+      "position": [
+        -140,
+        -14.5
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14
+    },
+    {
+      "text": "白主",
+      "position": [
+        -67,
+        -30
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14
+    },
+    {
+      "text": "白王",
+      "position": [
+        -49.5,
+        15.5
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14
+    },
+    {
+      "text": "黑骑士",
+      "position": [
+        14.5,
+        -10.8
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "白骑士",
+      "position": [
+        82.2,
+        -30.2
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "白车",
+      "position": [
+        149,
+        -124
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "火车站",
+      "position": [
+        161,
+        -149
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "黑兵",
+      "position": [
+        -165,
+        57
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -75
+    },
+    {
+      "text": "军营",
+      "position": [
+        167,
+        -222
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "E1 碉堡",
+      "position": [
+        -220,
+        -13
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "E2 碉堡",
+      "position": [
+        173,
+        -3
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "д - 仓库地堡",
+      "position": [
+        80,
+        -167
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14
+    },
+    {
+      "text": "车库",
+      "position": [
+        96,
+        30
+      ],
+      "layerId": "Ground_Level",
+      "rotation": -75,
+      "size": 80
+    },
+    {
+      "text": "修车间",
+      "position": [
+        55.5,
+        60.6
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "加油站",
+      "position": [
+        29.7,
+        29.5
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "运输区",
+      "position": [
+        -31,
+        -150
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K1",
+      "position": [
+        -1,
+        -71
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K2",
+      "position": [
+        66,
+        -90
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K3",
+      "position": [
+        -5.5,
+        -94
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K4",
+      "position": [
+        60,
+        -112
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K5",
+      "position": [
+        -10.5,
+        -115
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "K6",
+      "position": [
+        54,
+        -132
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    },
+    {
+      "text": "穹顶",
+      "position": [
+        -8.5,
+        175
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "停机坪",
+      "position": [
+        -120,
+        37
+      ],
+      "layerId": "Ground_Level",
+      "rotation": 14,
+      "size": 80
+    }
+  ],
+  "shoreline": [
+    {
+      "text": "疗养院",
+      "position": [
+        -258.2,
+        -71.2
+      ],
+      "layerId": "Ground_Level",
+      "size": 100
+    },
+    {
+      "text": "发电站",
+      "position": [
+        -215.8,
+        178.4
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "加油站",
+      "position": [
+        -189.3,
+        420
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "气象站",
+      "position": [
+        -496,
+        257
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "无线电塔",
+      "position": [
+        -708.9,
+        93.91
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "沼泽",
+      "position": [
+        326,
+        -118.5
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "村庄",
+      "position": [
+        418.4,
+        118
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "木屋",
+      "position": [
+        288,
+        144
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "村庄",
+      "position": [
+        128,
+        93
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "坦克桥",
+      "position": [
+        -355,
+        188
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "小码头",
+      "position": [
+        -338.6,
+        525
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "Scav 岛",
+      "position": [
+        216,
+        424
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "公交站",
+      "position": [
+        -96,
+        -6
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "建筑工地",
+      "position": [
+        52,
+        134
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "碉堡",
+      "position": [
+        -153,
+        -290
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "塔吊",
+      "position": [
+        -625,
+        484
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "走私者营地",
+      "position": [
+        -622,
+        -202
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "西楼",
+      "position": [
+        -171,
+        -83
+      ],
+      "layerId": "Second_Floor"
+    },
+    {
+      "text": "东楼",
+      "position": [
+        -329,
+        -83
+      ],
+      "layerId": "Second_Floor"
+    },
+    {
+      "text": "行政楼",
+      "position": [
+        -252,
+        -146
+      ],
+      "layerId": "Second_Floor"
+    }
+  ],
+  "woods": [
+    {
+      "text": "锯木厂",
+      "position": [
+        10,
+        -3
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "村镇",
+      "position": [
+        -485,
+        -390
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "老锯木厂",
+      "position": [
+        -517,
+        -210
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "邪教村",
+      "position": [
+        -80,
+        -680
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "USEC 营地",
+      "position": [
+        290,
+        -475
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "医疗 营地",
+      "position": [
+        -188,
+        235
+      ],
+      "layerId": "Ground_Level"
+    },
+    {
+      "text": "池塘",
+      "position": [
+        -5,
+        -515
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "坠机点",
+      "position": [
+        -252,
+        -37
+      ],
+      "layerId": "Ground_Level",
+      "size": 80
+    },
+    {
+      "text": "USEC 检查站",
+      "position": [
+        239,
+        -65
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "棚屋",
+      "position": [
+        244,
+        125
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "木堆",
+      "position": [
+        -16,
+        -122
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "木屋",
+      "position": [
+        -3,
+        -74
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "公交站",
+      "position": [
+        -234,
+        357
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "Jaeger 营地",
+      "position": [
+        -327,
+        19
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "狙击岩",
+      "position": [
+        85,
+        -147
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    },
+    {
+      "text": "车队",
+      "position": [
+        200,
+        -606
+      ],
+      "layerId": "Ground_Level",
+      "size": 70
+    }
+  ],
+  "the-labyrinth": [
+    {
+      "text": "1号房",
+      "position": [
+        -45,
+        52
+      ],
+      "layerId": "Ground_Level",
+      "size": 160
+    },
+    {
+      "text": "2号房",
+      "position": [
+        3.5,
+        -26
+      ],
+      "layerId": "Ground_Level",
+      "size": 160
+    },
+    {
+      "text": "3号房",
+      "position": [
+        -38,
+        -8
+      ],
+      "layerId": "Ground_Level",
+      "size": 160
+    },
+    {
+      "text": "4号房",
+      "position": [
+        10,
+        66
+      ],
+      "layerId": "Ground_Level",
+      "size": 160
+    },
+    {
+      "text": "5号房",
+      "position": [
+        40,
+        41
+      ],
+      "layerId": "Ground_Level",
+      "size": 160
+    }
+  ]
+}

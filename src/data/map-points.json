@@ -1,0 +1,1650 @@
+{
+  "streets-of-tarkov": {
+    "extracts": [
+      {
+        "name": "墓穴入口",
+        "faction": "scav",
+        "position": [
+          -249.008026,
+          243.797
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通风管道",
+        "faction": "scav",
+        "position": [
+          -124.127106,
+          423.93
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "下水道",
+        "faction": "scav",
+        "position": [
+          276.113,
+          345.389984
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Kamchatskaya大街拱门",
+        "faction": "scav",
+        "position": [
+          259.57,
+          48.72
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Cardinal公寓停车场",
+        "faction": "scav",
+        "position": [
+          104.84,
+          -161.170013
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Klimov交易中心撤离点",
+        "faction": "scav",
+        "position": [
+          -163.821014,
+          -5.65802
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "院子",
+        "faction": "pmc",
+        "position": [
+          -148.947,
+          500.151978
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Primorsky大道出租车载具撤离点",
+        "faction": "pmc",
+        "position": [
+          -2.191315,
+          461.232971
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "升降梯",
+        "faction": "pmc",
+        "position": [
+          -44.7435,
+          -72.15
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "坠机现场",
+        "faction": "pmc",
+        "position": [
+          312.74,
+          405.96
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "污水河",
+        "faction": "pmc",
+        "position": [
+          -267.04,
+          219.48
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "受损的房屋",
+        "faction": "pmc",
+        "position": [
+          -248.971,
+          344.275
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "倒塌的吊车",
+        "faction": "pmc",
+        "position": [
+          216.12,
+          272.7
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Klimov大街（Улица Климова）",
+        "faction": "pmc",
+        "position": [
+          -263.41,
+          43.19
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Pinewood地下室（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          -114.28,
+          64.88
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "展览馆撤离点",
+        "faction": "pmc",
+        "position": [
+          213.12,
+          -104.96
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "走私者的秘密基地",
+        "faction": "pmc",
+        "position": [
+          75.99,
+          50.0100021
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往中心区",
+        "position": [
+          -260.05,
+          103.645729
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往立交桥",
+        "position": [
+          286.670776,
+          505.539978
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往实验室",
+        "position": [
+          206.955,
+          82.194
+        ],
+        "layerId": "Underground_Level"
+      }
+    ]
+  },
+  "ground-zero": {
+    "extracts": [
+      {
+        "name": "警方封锁线（载具撤离点）",
+        "faction": "pmc",
+        "position": [
+          -19.5134068,
+          114.942139
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Emercom检查点",
+        "faction": "shared",
+        "position": [
+          151.625,
+          -97.45658
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav检查站（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          25.2195644,
+          -79.5413742
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Nakatani地下室楼梯",
+        "faction": "shared",
+        "position": [
+          -16.1249924,
+          335.063416
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "Mira大道",
+        "faction": "pmc",
+        "position": [
+          218.225,
+          -38.5065842
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "Tartowers销售办公室",
+        "faction": "pmc",
+        "position": [
+          190.804,
+          133.388992
+        ],
+        "layerId": "Underground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往塔科夫街区",
+        "position": [
+          222.829117,
+          65.72
+        ],
+        "layerId": "Underground_Level"
+      }
+    ]
+  },
+  "ground-zero-21": {
+    "extracts": [
+      {
+        "name": "警方封锁线（载具撤离点）",
+        "faction": "pmc",
+        "position": [
+          -19.5134068,
+          114.942139
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Emercom检查点",
+        "faction": "shared",
+        "position": [
+          151.625,
+          -97.45658
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav检查站（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          25.2195644,
+          -79.5413742
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Nakatani地下室楼梯",
+        "faction": "shared",
+        "position": [
+          -16.1249924,
+          335.063416
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Mira大道",
+        "faction": "pmc",
+        "position": [
+          218.225,
+          -38.5065842
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Tartowers销售办公室",
+        "faction": "pmc",
+        "position": [
+          190.804,
+          133.388992
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往塔科夫街区",
+        "position": [
+          222.829117,
+          65.72
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "customs": {
+    "extracts": [
+      {
+        "name": "ZB-013",
+        "faction": "pmc",
+        "position": [
+          200.9755,
+          -153.086456
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "宿舍载具撤离点",
+        "faction": "pmc",
+        "position": [
+          181.08,
+          213.25
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "ZB-1011",
+        "faction": "pmc",
+        "position": [
+          621.4962,
+          -128.604919
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "十字路口",
+        "faction": "shared",
+        "position": [
+          -334.804016,
+          -87.97917
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "老加油站",
+        "faction": "pmc",
+        "position": [
+          309.499634,
+          -174.320175
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "拖车停车场",
+        "faction": "pmc",
+        "position": [
+          -313.720276,
+          -233.280121
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "RUAF路障",
+        "faction": "pmc",
+        "position": [
+          -10.250061,
+          -138.450043
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "军事基地检查站",
+        "faction": "scav",
+        "position": [
+          644.87915,
+          126.867371
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "石间小道",
+        "faction": "scav",
+        "position": [
+          539.394,
+          200.3388
+        ],
+        "layerId": "Third_Floor"
+      },
+      {
+        "name": "通往军事基地的铁路",
+        "faction": "scav",
+        "position": [
+          489.058228,
+          221.391266
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "老路大门",
+        "faction": "scav",
+        "position": [
+          181.769958,
+          214.01001
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "狙击手路障",
+        "faction": "scav",
+        "position": [
+          15.0805054,
+          126.291855
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "通往港口的铁路",
+        "faction": "scav",
+        "position": [
+          -149.109558,
+          46.68419
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "拖车停车场工人棚屋",
+        "faction": "scav",
+        "position": [
+          -248.543152,
+          -232.991119
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往塔科夫的铁路",
+        "faction": "scav",
+        "position": [
+          -163.4682,
+          -217.452026
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "RUAF路障",
+        "faction": "scav",
+        "position": [
+          -9.436584,
+          -138.743988
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "17号仓库",
+        "faction": "scav",
+        "position": [
+          50.7402344,
+          -69.8183746
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "工厂棚屋",
+        "faction": "scav",
+        "position": [
+          205.5899,
+          3.31001282
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "4号仓库",
+        "faction": "scav",
+        "position": [
+          341.569946,
+          -25.84999
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "老加油站",
+        "faction": "scav",
+        "position": [
+          300.509,
+          -198.522247
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "工厂远角",
+        "faction": "scav",
+        "position": [
+          652.454834,
+          -160.48848
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "行政区大门",
+        "faction": "scav",
+        "position": [
+          671.13,
+          -54.6699753
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "铁路通道",
+        "faction": "pmc",
+        "position": [
+          139.592712,
+          -324.7145
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "Scav检查站",
+        "faction": "scav",
+        "position": [
+          652.24,
+          -27.1200027
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "地下室锅炉房（合作撤离）",
+        "faction": "shared",
+        "position": [
+          100.56,
+          -44.42
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "走私者的船",
+        "faction": "pmc",
+        "position": [
+          -41.5100021,
+          122.67
+        ],
+        "layerId": "Underground_Level"
+      },
+      {
+        "name": "走私者的地堡 (ZB-1012)",
+        "faction": "pmc",
+        "position": [
+          463.18,
+          -112.36
+        ],
+        "layerId": "Underground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往储备站",
+        "position": [
+          651.7,
+          124.6
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往工厂",
+        "position": [
+          354.31,
+          -190.1
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往立交桥",
+        "position": [
+          -335.24,
+          -205.68
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往海岸线",
+        "position": [
+          23.67,
+          139.53
+        ],
+        "layerId": "Underground_Level"
+      }
+    ]
+  },
+  "factory": {
+    "extracts": [
+      {
+        "name": "地下室",
+        "faction": "pmc",
+        "position": [
+          73.89422,
+          -29.0818882
+        ],
+        "layerId": "Basement"
+      },
+      {
+        "name": "3号门",
+        "faction": "scav",
+        "position": [
+          58.709,
+          60.86811
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "name": "3号门",
+        "faction": "pmc",
+        "position": [
+          58.43222,
+          63.29811
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "监控地堡大门",
+        "faction": "scav",
+        "position": [
+          -15.71578,
+          40.1081123
+        ],
+        "layerId": "Basement"
+      },
+      {
+        "name": "办公室窗户",
+        "faction": "scav",
+        "position": [
+          17.8332214,
+          39.8851128
+        ],
+        "layerId": "Third_Floor"
+      },
+      {
+        "name": "0号门",
+        "faction": "pmc",
+        "position": [
+          -63.66578,
+          55.8781128
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "name": "医疗帐篷大门",
+        "faction": "pmc",
+        "position": [
+          -17.5257778,
+          -61.27189
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "name": "庭院大门",
+        "faction": "pmc",
+        "position": [
+          23.7642212,
+          68.93811
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "name": "走私者小道",
+        "faction": "pmc",
+        "position": [
+          48.026,
+          -28.8580017
+        ],
+        "layerId": "Basement"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往森林",
+        "position": [
+          23.7,
+          61.61
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "description": "前往海关",
+        "position": [
+          18.51,
+          -48.33
+        ],
+        "layerId": "Ground_Floor"
+      },
+      {
+        "description": "前往实验室",
+        "position": [
+          -26.539,
+          -42.013
+        ],
+        "layerId": "Basement"
+      }
+    ]
+  },
+  "night-factory": {
+    "extracts": [
+      {
+        "name": "地下室",
+        "faction": "pmc",
+        "position": [
+          73.89422,
+          -29.0818882
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "3号门",
+        "faction": "scav",
+        "position": [
+          58.709,
+          60.86811
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "3号门",
+        "faction": "pmc",
+        "position": [
+          58.43222,
+          63.29811
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "监控地堡大门",
+        "faction": "scav",
+        "position": [
+          -15.71578,
+          40.1081123
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "办公室窗户",
+        "faction": "scav",
+        "position": [
+          17.8332214,
+          39.8851128
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "0号门",
+        "faction": "pmc",
+        "position": [
+          -63.66578,
+          55.8781128
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "医疗帐篷大门",
+        "faction": "pmc",
+        "position": [
+          -17.5257778,
+          -61.27189
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "庭院大门",
+        "faction": "pmc",
+        "position": [
+          23.7642212,
+          68.93811
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "走私者小道",
+        "faction": "pmc",
+        "position": [
+          48.026,
+          -28.8580017
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往森林",
+        "position": [
+          23.7,
+          61.61
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往海关",
+        "position": [
+          18.51,
+          -48.33
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往实验室",
+        "position": [
+          -26.539,
+          -42.013
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "interchange": {
+    "extracts": [
+      {
+        "name": "Emercom检查点",
+        "faction": "shared",
+        "position": [
+          -321.56,
+          266.74
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "铁路撤离点",
+        "faction": "shared",
+        "position": [
+          472.32,
+          -429.74
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "发电站",
+        "faction": "pmc",
+        "position": [
+          -251.92,
+          -367.13
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav 营地（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          278.69,
+          -30.97
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "围栏破洞",
+        "faction": "pmc",
+        "position": [
+          -219.92,
+          -37.02
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "安全屋撤离点",
+        "faction": "pmc",
+        "position": [
+          -47.73,
+          44.055
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往海关",
+        "position": [
+          274.3,
+          395.93
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往塔科夫街区",
+        "position": [
+          263.1,
+          -444.4
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "the-lab": {
+    "extracts": [
+      {
+        "name": "医疗区电梯",
+        "faction": "shared",
+        "position": [
+          -112.423,
+          -343.986
+        ],
+        "layerId": "Technical_Level"
+      },
+      {
+        "name": "货运电梯",
+        "faction": "shared",
+        "position": [
+          -112.152,
+          -408.64
+        ],
+        "layerId": "Second_Level"
+      },
+      {
+        "name": "主电梯",
+        "faction": "shared",
+        "position": [
+          -282.304016,
+          -334.896
+        ],
+        "layerId": "Technical_Level"
+      },
+      {
+        "name": "通风管道",
+        "faction": "pmc",
+        "position": [
+          -144.94,
+          -396.826
+        ],
+        "layerId": "Technical_Level"
+      },
+      {
+        "name": "污水管道",
+        "faction": "pmc",
+        "position": [
+          -122.889992,
+          -258.3245
+        ],
+        "layerId": "Technical_Level"
+      },
+      {
+        "name": "停车场大门",
+        "faction": "pmc",
+        "position": [
+          -231.73,
+          -434.816376
+        ],
+        "layerId": "First_Level"
+      },
+      {
+        "name": "车库大门",
+        "faction": "pmc",
+        "position": [
+          -170.66,
+          -245.94
+        ],
+        "layerId": "First_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往塔科夫街区",
+        "position": [
+          -169.079956,
+          -420.878052
+        ],
+        "layerId": "First_Level"
+      }
+    ]
+  },
+  "lighthouse": {
+    "extracts": [
+      {
+        "name": "装甲列车",
+        "faction": "shared",
+        "position": [
+          6.27001953,
+          -873.78
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往军事基地的载具撤离点",
+        "faction": "pmc",
+        "position": [
+          -328.951263,
+          -784.3581
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "隧道（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          -68.3,
+          318.11
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "山间小路",
+        "faction": "pmc",
+        "position": [
+          -172.35,
+          -6.39
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往海岸线的路",
+        "faction": "pmc",
+        "position": [
+          -364.4,
+          -121.4
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往海岸线的路",
+        "faction": "scav",
+        "position": [
+          -364.4,
+          -121.4
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "北部检查点",
+        "faction": "pmc",
+        "position": [
+          113.22,
+          -989.23
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "南部大路",
+        "faction": "pmc",
+        "position": [
+          -295.8,
+          420.6
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "南部大路塌方处",
+        "faction": "scav",
+        "position": [
+          -281.3,
+          420.8
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "浮动码头下方的藏身处",
+        "faction": "scav",
+        "position": [
+          133.068,
+          286.842
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "洞穴Scav藏身处",
+        "faction": "scav",
+        "position": [
+          180.66,
+          -485.94
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "厂区大门",
+        "faction": "scav",
+        "position": [
+          -152.56,
+          -794.1
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "湖边小径",
+        "faction": "pmc",
+        "position": [
+          -360,
+          -564.87
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往海岸线",
+        "position": [
+          -338.6,
+          -168.9
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往储备站",
+        "position": [
+          -294.6,
+          -780.1
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往森林",
+        "position": [
+          106.3,
+          -958.1
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "reserve": {
+    "extracts": [
+      {
+        "name": "装甲列车",
+        "faction": "shared",
+        "position": [
+          144.986,
+          -147.352
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "D-2",
+        "faction": "pmc",
+        "position": [
+          -121.479065,
+          172.24913
+        ],
+        "layerId": "Bunkers"
+      },
+      {
+        "name": "地堡密闭门",
+        "faction": "shared",
+        "position": [
+          61.9206619,
+          -190.541931
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "峭壁斜坡",
+        "faction": "pmc",
+        "position": [
+          -9.24,
+          208.43
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav之地（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          -127.9,
+          -142.59
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "下水道检修孔",
+        "faction": "shared",
+        "position": [
+          40.18,
+          76.45
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "山边围墙缺口",
+        "faction": "scav",
+        "position": [
+          -261.43,
+          48.52
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "加热管道",
+        "faction": "scav",
+        "position": [
+          -35.26,
+          -180.12
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "库房密闭门",
+        "faction": "scav",
+        "position": [
+          120.78,
+          -120.352
+        ],
+        "layerId": "Bunkers"
+      },
+      {
+        "name": "检查点围墙",
+        "faction": "scav",
+        "position": [
+          61.97,
+          134.31
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "前往森林的路",
+        "faction": "pmc",
+        "position": [
+          36.53,
+          -221.56
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往海关",
+        "position": [
+          -196.729477,
+          -117.808853
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往森林",
+        "position": [
+          216.860535,
+          -201.048859
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往灯塔",
+        "position": [
+          238.800537,
+          -128.048859
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "shoreline": {
+    "extracts": [
+      {
+        "name": "通往北方的路（载具撤离点）",
+        "faction": "pmc",
+        "position": [
+          -543.264038,
+          -379.651367
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往海关的路",
+        "faction": "pmc",
+        "position": [
+          -859.05,
+          0.49
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "铁路桥",
+        "faction": "pmc",
+        "position": [
+          -1029.29,
+          307.59
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "隧道",
+        "faction": "pmc",
+        "position": [
+          376.36,
+          319.25
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往灯塔的路",
+        "faction": "pmc",
+        "position": [
+          448.9,
+          -254.6
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "通往海关的路",
+        "faction": "scav",
+        "position": [
+          -859.05,
+          0.49
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "灯塔",
+        "faction": "scav",
+        "position": [
+          -458.1507,
+          567.2876
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "被毁的道路",
+        "faction": "scav",
+        "position": [
+          366.62,
+          332.51
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "健身房东楼入口",
+        "faction": "scav",
+        "position": [
+          -296.9457,
+          -100.892
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "行政楼地下室",
+        "faction": "scav",
+        "position": [
+          -256.87,
+          -149.782379
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "走私者的通道（合作撤离点）",
+        "faction": "shared",
+        "position": [
+          -729.4,
+          -255.1
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "码头的船",
+        "faction": "pmc",
+        "position": [
+          -332.5907,
+          561.2576
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "攀岩者之路",
+        "faction": "pmc",
+        "position": [
+          -214.3,
+          -361.8
+        ],
+        "layerId": "Second_Floor"
+      },
+      {
+        "name": "山边地堡",
+        "faction": "pmc",
+        "position": [
+          -390.956024,
+          -385.721
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往灯塔",
+        "position": [
+          417.2,
+          -217.5
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "Transit to Terminal",
+        "position": [
+          -965.82,
+          364.49
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "转移到迷宫？",
+        "position": [
+          -197.958,
+          -81.085
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "woods": {
+    "extracts": [
+      {
+        "name": "友谊之桥（合作撤离）",
+        "faction": "shared",
+        "position": [
+          93.17,
+          -843.98
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "RUAF大门",
+        "faction": "pmc",
+        "position": [
+          -141.730011,
+          446.8
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "ZB-016",
+        "faction": "pmc",
+        "position": [
+          -389.159973,
+          11.0449905
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "ZB-014",
+        "faction": "pmc",
+        "position": [
+          447.24,
+          57.46
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "UN路障",
+        "faction": "pmc",
+        "position": [
+          -536.1243,
+          286.7704
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "大桥载具撤离点",
+        "faction": "pmc",
+        "position": [
+          -485.325745,
+          -504.061432
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "郊区",
+        "faction": "scav",
+        "position": [
+          347.15567,
+          360.0704
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "亡者之所",
+        "faction": "scav",
+        "position": [
+          195.550049,
+          259.210022
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "那艘船",
+        "faction": "scav",
+        "position": [
+          176.640015,
+          215.859985
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav小屋",
+        "faction": "scav",
+        "position": [
+          413.685669,
+          242.17038
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "Scav地堡",
+        "faction": "scav",
+        "position": [
+          220.426651,
+          -705.7956
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "山间仓库",
+        "faction": "scav",
+        "position": [
+          -210.334351,
+          -213.4996
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "东部岩石",
+        "faction": "scav",
+        "position": [
+          -509.364319,
+          -35.3295975
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "旧火车站",
+        "faction": "scav",
+        "position": [
+          -517.93,
+          149.19
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "UN路障",
+        "faction": "scav",
+        "position": [
+          -535.2443,
+          287.050385
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "RUAF路障",
+        "faction": "scav",
+        "position": [
+          -135.774353,
+          416.2604
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "郊区",
+        "faction": "pmc",
+        "position": [
+          349.035645,
+          358.580383
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "北部UN路障",
+        "faction": "pmc",
+        "position": [
+          -557.324341,
+          -67.0496
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "输电通道",
+        "faction": "pmc",
+        "position": [
+          573.985657,
+          -85.2596
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "前往塔科夫的铁路桥",
+        "faction": "pmc",
+        "position": [
+          -730.43,
+          129.32
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": [
+      {
+        "description": "前往工厂",
+        "position": [
+          -362.45,
+          360.7704
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往储备站",
+        "position": [
+          246.06,
+          369.9
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往灯塔",
+        "position": [
+          494.34,
+          345.37
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "description": "前往海关",
+        "position": [
+          -153.05,
+          402.13
+        ],
+        "layerId": "Ground_Level"
+      }
+    ]
+  },
+  "the-labyrinth": {
+    "extracts": [
+      {
+        "name": "向上通路",
+        "faction": "pmc",
+        "position": [
+          -7.31,
+          40.127
+        ],
+        "layerId": "Ground_Level"
+      },
+      {
+        "name": "阿里阿德涅之线",
+        "faction": "pmc",
+        "position": [
+          19.443,
+          0.495
+        ],
+        "layerId": "Ground_Level"
+      }
+    ],
+    "transits": []
+  }
+}

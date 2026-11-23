@@ -1,0 +1,54 @@
+:root {
+  --tarkov-bg-canvas: #0f1115;
+  --tarkov-bg-panel: #181b22;
+  --tarkov-bg-control: #11141a;
+  --tarkov-border: #2a2f3a;
+  --tarkov-border-hover: rgba(212, 163, 89, 0.55);
+  --tarkov-gold: #d4a359;
+  --tarkov-gold-soft: rgba(212, 163, 89, 0.14);
+  --tarkov-text-primary: #f3f4f6;
+  --tarkov-text-muted: #9ca3af;
+  --tarkov-marker-red: #ff3b30;
+  --tarkov-status-ok: #22c55e;
+  --tarkov-status-err: #ef4444;
+  --tarkov-radius: 6px;
+}
+
+html.dark {
+  --el-bg-color: #181b22;
+  --el-bg-color-overlay: #1b1f27;
+  --el-fill-color-blank: #11141a;
+  --el-border-color: #2a2f3a;
+  --el-border-color-light: #2a2f3a;
+  --el-border-radius-base: 6px;
+  --el-color-primary: #d4a359;
+  --el-color-primary-light-3: #dfb778;
+  --el-color-primary-dark-2: #b88842;
+  --el-switch-on-color: #d4a359;
+  --el-text-color-primary: #f3f4f6;
+  --el-text-color-regular: #d1d5db;
+  --el-text-color-secondary: #9ca3af;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--tarkov-bg-canvas);
+  color: var(--tarkov-text-primary);
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  user-select: none;
+}
+
+.mono-text {
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
+  font-variant-numeric: tabular-nums;
+}
