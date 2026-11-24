@@ -2,11 +2,13 @@
 import { reactive, watch } from 'vue';
 import { open } from '@tauri-apps/plugin-dialog';
 import { invoke } from '@tauri-apps/api/core';
-import type { AppSettings, DetectedPaths } from '@/types';
+import { ElMessage } from 'element-plus';
+import type { AppSettings, DetectedPaths, LanServerStatus } from '@/types';
 
 const props = defineProps<{
   visible: boolean;
   settings: AppSettings;
+  lanStatus: LanServerStatus;
 }>();
 
 const emit = defineEmits<{
@@ -49,6 +51,15 @@ async function autoDetect() {
 function handleSave() {
   emit('save', { ...form });
   emit('update:visible', false);
+}
+
+async function copyLanUrl(url: string) {
+  try {
+    await navigator.clipboard.writeText(url);
+    ElMessage.success('已复制局域网访问地址');
+  } catch {
+    ElMessage.warning('复制失败，请手动复制');
+  }
 }
 </script>
 
@@ -112,6 +123,29 @@ function handleSave() {
           </span>
         </div>
       </el-form-item>
+
+      <el-divider />
+
+      <el-form-item label="局域网设备访问（手机 / 平板 / 副屏浏览器）">
+        <div class="switch-row">
+          <el-switch v-model="form.lanShareEnabled" />
+          <span class="switch-desc">
+            开启后，同一局域网下的其他设备可通过浏览器实时查看当前地图与标点
+          </span>
+        </div>
+      </el-form-item>
+
+      <el-form-item v-if="form.lanShareEnabled" label="局域网访问端口与地址">
+        <div class="switch-row">
+          <el-input-number v-model="form.lanSharePort" :min="1024" :max="65535" size="small" />
+          <template v-if="lanStatus.running">
+            <span class="lan-url mono-text">{{ lanStatus.url }}</span>
+            <el-button size="small" @click="copyLanUrl(lanStatus.url)">复制地址</el-button>
+          </template>
+          <span v-else-if="lanStatus.error" class="lan-err">{{ lanStatus.error }}</span>
+          <span v-else class="switch-desc">保存设置后将自动生成局域网访问地址</span>
+        </div>
+      </el-form-item>
     </el-form>
 
     <template #footer>
@@ -137,5 +171,19 @@ function handleSave() {
 .switch-desc {
   font-size: 12px;
   color: var(--tarkov-text-muted);
+}
+
+.lan-url {
+  font-size: 12px;
+  color: var(--tarkov-gold);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--tarkov-gold-soft);
+  border: 1px solid rgba(212, 163, 89, 0.35);
+}
+
+.lan-err {
+  font-size: 12px;
+  color: var(--tarkov-status-err);
 }
 </style>

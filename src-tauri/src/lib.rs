@@ -1,4 +1,5 @@
 mod config;
+mod lan_server;
 mod p2p;
 mod parser;
 mod server_client;
@@ -6,12 +7,13 @@ mod types;
 mod watcher;
 
 use std::sync::Mutex;
-use tauri::{AppHandle, Manager, State};
+use tauri::{AppHandle, Emitter, Manager, State};
 
 use crate::config::{detect_default_paths as detect_paths_impl, load_settings, save_settings_to_disk};
+use crate::lan_server::{LanServerManager, LanSnapshot};
 use crate::p2p::P2pManager;
 use crate::server_client::{ServerClientManager, ServerConnectionStatus};
-use crate::types::{AppSettings, DetectedPaths, TeamRoomState, WatcherStatus};
+use crate::types::{AppSettings, DetectedPaths, LanServerStatus, TeamRoomState, WatcherStatus};
 use crate::watcher::WatcherManager;
 
 struct AppState(Mutex<WatcherManager>);
@@ -26,12 +28,18 @@ fn get_settings(state: State<'_, AppState>) -> AppSettings {
 }
 
 #[tauri::command]
-fn save_settings(
+async fn save_settings(
     app: AppHandle,
     state: State<'_, AppState>,
+    lan: State<'_, LanServerManager>,
     settings: AppSettings,
 ) -> Result<WatcherStatus, String> {
     save_settings_to_disk(&app, &settings)?;
+    let lan_status = lan
+        .restart(&app, settings.lan_share_enabled, settings.lan_share_port)
+        .await;
+    let _ = app.emit("lan-status-changed", &lan_status);
+
     let mut manager = state
         .0
         .lock()
@@ -178,6 +186,16 @@ async fn server_join_room(
     srv.join_room(room_id, passcode, player_name, map_id).await
 }
 
+#[tauri::command]
+async fn get_lan_status(lan: State<'_, LanServerManager>) -> Result<LanServerStatus, String> {
+    Ok(lan.get_status().await)
+}
+
+#[tauri::command]
+fn update_lan_snapshot(lan: State<'_, LanServerManager>, snapshot: LanSnapshot) {
+    lan.update_snapshot(snapshot);
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -185,10 +203,23 @@ pub fn run() {
         .setup(|app| {
             let initial_settings = load_settings(app.handle());
             let mut manager = WatcherManager::new(initial_settings.clone());
-            manager.restart(app.handle(), initial_settings);
+            manager.restart(app.handle(), initial_settings.clone());
             app.manage(AppState(Mutex::new(manager)));
             app.manage(P2pManager::new());
             app.manage(ServerClientManager::new());
+
+            let lan_mgr = LanServerManager::new();
+            app.manage(lan_mgr);
+
+            if initial_settings.lan_share_enabled {
+                let handle = app.handle().clone();
+                let port = initial_settings.lan_share_port;
+                tauri::async_runtime::spawn(async move {
+                    let lan = handle.state::<LanServerManager>();
+                    let status = lan.restart(&handle, true, port).await;
+                    let _ = handle.emit("lan-status-changed", &status);
+                });
+            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -206,7 +237,9 @@ pub fn run() {
             server_get_status,
             server_list_rooms,
             server_create_room,
-            server_join_room
+            server_join_room,
+            get_lan_status,
+            update_lan_snapshot
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

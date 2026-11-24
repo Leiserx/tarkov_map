@@ -65,6 +65,8 @@ export interface SvgPosition {
 export interface AppSettings {
   playerName: string;
   lastServerAddr: string;
+  lanShareEnabled: boolean;
+  lanSharePort: number;
   screenshotDir: string;
   logsDir: string;
   autoDeleteScreenshot: boolean;
@@ -122,4 +124,17 @@ export interface ServerRoomSummary {
 export interface ServerConnectionStatus {
   connected: boolean;
   addr: string;
+}
+
+export interface LanServerStatus {
+  running: boolean;
+  url: string;
+  error?: string;
+}
+
+export interface LanSnapshot {
+  mapId: string;
+  playerName: string;
+  latestCoord: ScreenshotCoord | null;
+  teammates: TeamMemberInfo[];
 }

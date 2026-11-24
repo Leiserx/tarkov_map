@@ -14,6 +14,8 @@ defineProps<{
   watcherStatus: WatcherStatus;
   screenshotDir: string;
   teamState: TeamRoomState;
+  isBrowserMode: boolean;
+  lanConnected: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -60,7 +62,11 @@ function handleClose() {
         />
       </el-select>
 
-      <el-tooltip content="开启后将根据游戏日志（含离线/PVE）自动切换进入的地图" placement="bottom">
+      <el-tooltip
+        v-if="!isBrowserMode"
+        content="开启后将根据游戏日志（含离线/PVE）自动切换进入的地图"
+        placement="bottom"
+      >
         <button
           type="button"
           class="toolbar-chip"
@@ -71,6 +77,11 @@ function handleClose() {
           <span>{{ autoSwitchMapByLog ? '日志自动切图' : '手动锁定地图' }}</span>
         </button>
       </el-tooltip>
+
+      <div v-else class="toolbar-chip is-active">
+        <span class="chip-dot" :class="lanConnected ? 'is-ok' : 'is-err'" />
+        <span>{{ lanConnected ? '局域网同步中' : '局域网重连中' }}</span>
+      </div>
     </div>
 
     <div class="toolbar-center mono-text" data-tauri-drag-region>
@@ -118,52 +129,54 @@ function handleClose() {
         </div>
       </el-tooltip>
 
-      <el-tooltip
-        :content="
-          watcherStatus.screenshotWatching
-            ? `正在监听: ${screenshotDir}`
-            : watcherStatus.screenshotError || '截图目录未就绪'
-        "
-        placement="bottom"
-      >
+      <template v-if="!isBrowserMode">
+        <el-tooltip
+          :content="
+            watcherStatus.screenshotWatching
+              ? `正在监听: ${screenshotDir}`
+              : watcherStatus.screenshotError || '截图目录未就绪'
+          "
+          placement="bottom"
+        >
+          <button type="button" class="toolbar-chip" @click="emit('openSettings')">
+            <span
+              class="chip-dot"
+              :class="watcherStatus.screenshotWatching ? 'is-ok' : 'is-err'"
+            />
+            <span>{{ watcherStatus.screenshotWatching ? '监听中' : '路径异常' }}</span>
+          </button>
+        </el-tooltip>
+
+        <button
+          type="button"
+          class="toolbar-chip"
+          :class="{ 'is-active': teamState.inRoom }"
+          @click="emit('openTeam')"
+        >
+          <el-icon :size="14"><UserFilled /></el-icon>
+          <span v-if="teamState.inRoom">
+            {{ teamState.roomCode }} ({{ teamState.memberCount }}人)
+          </span>
+          <span v-else>组队</span>
+        </button>
+
         <button type="button" class="toolbar-chip" @click="emit('openSettings')">
-          <span
-            class="chip-dot"
-            :class="watcherStatus.screenshotWatching ? 'is-ok' : 'is-err'"
-          />
-          <span>{{ watcherStatus.screenshotWatching ? '监听中' : '路径异常' }}</span>
+          <el-icon :size="14"><Setting /></el-icon>
+          <span>设置</span>
         </button>
-      </el-tooltip>
 
-      <button
-        type="button"
-        class="toolbar-chip"
-        :class="{ 'is-active': teamState.inRoom }"
-        @click="emit('openTeam')"
-      >
-        <el-icon :size="14"><UserFilled /></el-icon>
-        <span v-if="teamState.inRoom">
-          {{ teamState.roomCode }} ({{ teamState.memberCount }}人)
-        </span>
-        <span v-else>组队</span>
-      </button>
-
-      <button type="button" class="toolbar-chip" @click="emit('openSettings')">
-        <el-icon :size="14"><Setting /></el-icon>
-        <span>设置</span>
-      </button>
-
-      <div class="window-controls">
-        <button type="button" class="win-btn" title="最小化" @click="handleMinimize">
-          <el-icon :size="13"><Minus /></el-icon>
-        </button>
-        <button type="button" class="win-btn" title="最大化 / 还原" @click="handleToggleMaximize">
-          <el-icon :size="12"><CopyDocument /></el-icon>
-        </button>
-        <button type="button" class="win-btn win-btn-close" title="关闭" @click="handleClose">
-          <el-icon :size="13"><Close /></el-icon>
-        </button>
-      </div>
+        <div class="window-controls">
+          <button type="button" class="win-btn" title="最小化" @click="handleMinimize">
+            <el-icon :size="13"><Minus /></el-icon>
+          </button>
+          <button type="button" class="win-btn" title="最大化 / 还原" @click="handleToggleMaximize">
+            <el-icon :size="12"><CopyDocument /></el-icon>
+          </button>
+          <button type="button" class="win-btn win-btn-close" title="关闭" @click="handleClose">
+            <el-icon :size="13"><Close /></el-icon>
+          </button>
+        </div>
+      </template>
     </div>
   </header>
 </template>

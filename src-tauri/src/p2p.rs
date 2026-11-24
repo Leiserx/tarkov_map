@@ -2,7 +2,10 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use iroh::{endpoint::presets, Endpoint, EndpointId};
+use iroh::{
+    endpoint::{presets, Connection},
+    Endpoint, EndpointId,
+};
 use pkarr::{Client as PkarrClient, Keypair as PkarrKeypair, SignedPacket};
 use rand::Rng;
 use serde::{Deserialize, Serialize};
@@ -36,6 +39,9 @@ enum WireMessage {
     Ping {
         peer_id: String,
     },
+    Leave {
+        peer_id: String,
+    },
     RoomState {
         room_code: String,
         members: Vec<TeamMemberInfo>,
@@ -52,10 +58,14 @@ struct ActiveSession {
     tasks: Vec<JoinHandle<()>>,
     /// 房主用于向所有已连接队友广播消息的发送端列表
     peer_txs: Arc<Mutex<HashMap<String, mpsc::UnboundedSender<WireMessage>>>>,
+    /// 房主保留的底层 QUIC 连接，确保连接不被提前 drop 且可主动关闭
+    peer_conns: Arc<Mutex<HashMap<String, Connection>>>,
     /// 房主维护的成员状态表
     host_members: Arc<Mutex<HashMap<String, (TeamMemberInfo, u64)>>>,
     /// 队友用于向房主发送消息的发送端
     host_tx: Option<mpsc::UnboundedSender<WireMessage>>,
+    /// 队友保留的到房主的 QUIC 连接
+    host_conn: Option<Connection>,
 }
 
 pub struct P2pManager {
@@ -79,11 +89,30 @@ impl P2pManager {
         let mut guard = self.session.lock().await;
         if let Some(mut sess) = guard.take() {
             if sess.is_host {
-                let txs = sess.peer_txs.lock().await;
-                for tx in txs.values() {
-                    let _ = tx.send(WireMessage::RoomClosed);
+                {
+                    let txs = sess.peer_txs.lock().await;
+                    for tx in txs.values() {
+                        let _ = tx.send(WireMessage::RoomClosed);
+                    }
+                }
+                // 给 write_task 留出时间把 RoomClosed 刷新到 QUIC 流后再关闭连接
+                tokio::time::sleep(Duration::from_millis(120)).await;
+                let conns = sess.peer_conns.lock().await;
+                for conn in conns.values() {
+                    conn.close(0u32.into(), b"room closed");
+                }
+            } else {
+                if let Some(tx) = &sess.host_tx {
+                    let _ = tx.send(WireMessage::Leave {
+                        peer_id: sess.self_peer_id.clone(),
+                    });
+                    tokio::time::sleep(Duration::from_millis(100)).await;
+                }
+                if let Some(conn) = &sess.host_conn {
+                    conn.close(0u32.into(), b"peer left");
                 }
             }
+
             for task in sess.tasks.drain(..) {
                 task.abort();
             }
@@ -138,6 +167,8 @@ impl P2pManager {
         let host_members = Arc::new(Mutex::new(init_members));
         let peer_txs: Arc<Mutex<HashMap<String, mpsc::UnboundedSender<WireMessage>>>> =
             Arc::new(Mutex::new(HashMap::new()));
+        let peer_conns: Arc<Mutex<HashMap<String, Connection>>> =
+            Arc::new(Mutex::new(HashMap::new()));
 
         let initial_state = TeamRoomState {
             in_room: true,
@@ -158,6 +189,7 @@ impl P2pManager {
             let app_h = app.clone();
             let members = host_members.clone();
             let txs = peer_txs.clone();
+            let conns = peer_conns.clone();
             let snap = self.state_snapshot.clone();
             let code = room_code.clone();
             let full = full_code.clone();
@@ -168,6 +200,7 @@ impl P2pManager {
                     let app_c = app_h.clone();
                     let members_c = members.clone();
                     let txs_c = txs.clone();
+                    let conns_c = conns.clone();
                     let snap_c = snap.clone();
                     let code_c = code.clone();
                     let full_c = full.clone();
@@ -182,10 +215,12 @@ impl P2pManager {
                         };
                         handle_host_peer_stream(
                             app_c,
+                            conn,
                             send,
                             recv,
                             members_c,
                             txs_c,
+                            conns_c,
                             snap_c,
                             code_c,
                             full_c,
@@ -197,11 +232,12 @@ impl P2pManager {
             })
         };
 
-        // 2. 心跳超时清理任务 + 周期性重发 Pkarr 保持在线
+        // 2. 周期性广播房间状态（兼作房主心跳）+ 清理超时失联队友 + DHT 续期
         let cleanup_task = {
             let app_h = app.clone();
             let members = host_members.clone();
             let txs = peer_txs.clone();
+            let conns = peer_conns.clone();
             let snap = self.state_snapshot.clone();
             let code = room_code.clone();
             let full = full_code.clone();
@@ -220,7 +256,7 @@ impl P2pManager {
                             if *pid == host_pid {
                                 return true;
                             }
-                            if now.saturating_sub(*last_seen) > 20 {
+                            if now.saturating_sub(*last_seen) > 15 {
                                 removed.push(pid.clone());
                                 false
                             } else {
@@ -230,13 +266,16 @@ impl P2pManager {
                     }
                     if !removed.is_empty() {
                         let mut t = txs.lock().await;
+                        let mut c = conns.lock().await;
                         for pid in removed {
                             t.remove(&pid);
+                            c.remove(&pid);
                         }
-                        drop(t);
-                        broadcast_host_state(&app_h, &members, &txs, &snap, &code, &full, &host_pid)
-                            .await;
                     }
+                    // 每 5 秒定时向全体队员同步最新人数与成员状态
+                    broadcast_host_state(&app_h, &members, &txs, &snap, &code, &full, &host_pid)
+                        .await;
+
                     // 每 120 秒续期一次 DHT 记录
                     if ticks % 24 == 0 {
                         let c = code.clone();
@@ -257,8 +296,10 @@ impl P2pManager {
             endpoint,
             tasks: vec![accept_task, cleanup_task],
             peer_txs,
+            peer_conns,
             host_members,
             host_tx: None,
+            host_conn: None,
         });
 
         Ok(initial_state)
@@ -344,18 +385,28 @@ impl P2pManager {
             })
         };
 
-        // 读取任务
+        // 读取任务（同时监听 QUIC 连接关闭与 15 秒房主心跳超时）
         let read_task = {
             let app_h = app.clone();
             let snap = self.state_snapshot.clone();
             let sess_arc = self.session.clone();
             let self_pid = self_peer_id.clone();
             let full_c = full_code.clone();
+            let conn_watch = conn.clone();
 
             tokio::spawn(async move {
                 let mut reader = BufReader::new(recv);
                 let mut line = String::new();
-                while let Ok(n) = reader.read_line(&mut line).await {
+                loop {
+                    let read_fut = reader.read_line(&mut line);
+                    let res = tokio::select! {
+                        r = tokio::time::timeout(Duration::from_secs(16), read_fut) => r,
+                        _ = conn_watch.closed() => break,
+                    };
+
+                    let Ok(Ok(n)) = res else {
+                        break;
+                    };
                     if n == 0 {
                         break;
                     }
@@ -382,17 +433,22 @@ impl P2pManager {
                     line.clear();
                 }
 
-                // 房主断开或房间解散
-                if let Some(mut sess) = sess_arc.lock().await.take() {
-                    for t in sess.tasks.drain(..) {
-                        t.abort();
-                    }
-                    sess.endpoint.close().await;
-                }
+                // 先更新前端状态并发送解散通知，再异步清理会话与关闭当前任务
                 let empty = TeamRoomState::default();
                 *snap.write().await = empty.clone();
                 let _ = app_h.emit("team-state-updated", &empty);
                 let _ = app_h.emit("team-room-closed", "房主已离开，房间已解散");
+
+                if let Some(mut sess) = sess_arc.lock().await.take() {
+                    let ep = sess.endpoint;
+                    let tasks: Vec<_> = sess.tasks.drain(..).collect();
+                    tokio::spawn(async move {
+                        for t in tasks {
+                            t.abort();
+                        }
+                        ep.close().await;
+                    });
+                }
             })
         };
 
@@ -417,8 +473,10 @@ impl P2pManager {
             endpoint,
             tasks: vec![write_task, ping_task, read_task],
             peer_txs: Arc::new(Mutex::new(HashMap::new())),
+            peer_conns: Arc::new(Mutex::new(HashMap::new())),
             host_members: Arc::new(Mutex::new(HashMap::new())),
             host_tx: Some(tx),
+            host_conn: Some(conn),
         });
 
         Ok(initial_state)
@@ -500,10 +558,12 @@ impl P2pManager {
 #[allow(clippy::too_many_arguments)]
 async fn handle_host_peer_stream(
     app: AppHandle,
+    conn: Connection,
     mut send: iroh::endpoint::SendStream,
     recv: iroh::endpoint::RecvStream,
     members: Arc<Mutex<HashMap<String, (TeamMemberInfo, u64)>>>,
     txs: Arc<Mutex<HashMap<String, mpsc::UnboundedSender<WireMessage>>>>,
+    conns: Arc<Mutex<HashMap<String, Connection>>>,
     snap: Arc<RwLock<TeamRoomState>>,
     room_code: String,
     full_code: String,
@@ -525,10 +585,19 @@ async fn handle_host_peer_stream(
     let mut line = String::new();
     let mut registered_peer_id: Option<String> = None;
 
-    while let Ok(n) = reader.read_line(&mut line).await {
+    loop {
+        let read_fut = reader.read_line(&mut line);
+        let res = tokio::select! {
+            r = read_fut => r,
+            _ = conn.closed() => break,
+        };
+        let Ok(n) = res else {
+            break;
+        };
         if n == 0 {
             break;
         }
+
         if let Ok(msg) = serde_json::from_str::<WireMessage>(line.trim()) {
             let now = now_secs();
             match msg {
@@ -539,6 +608,7 @@ async fn handle_host_peer_stream(
                 } => {
                     registered_peer_id = Some(peer_id.clone());
                     txs.lock().await.insert(peer_id.clone(), tx.clone());
+                    conns.lock().await.insert(peer_id.clone(), conn.clone());
                     {
                         let mut m = members.lock().await;
                         let entry = m.entry(peer_id.clone()).or_insert_with(|| {
@@ -572,6 +642,8 @@ async fn handle_host_peer_stream(
                     z,
                 } => {
                     registered_peer_id = Some(peer_id.clone());
+                    txs.lock().await.entry(peer_id.clone()).or_insert_with(|| tx.clone());
+                    conns.lock().await.entry(peer_id.clone()).or_insert_with(|| conn.clone());
                     {
                         let mut m = members.lock().await;
                         let entry = m.entry(peer_id.clone()).or_insert_with(|| {
@@ -604,6 +676,10 @@ async fn handle_host_peer_stream(
                         entry.1 = now;
                     }
                 }
+                WireMessage::Leave { peer_id } => {
+                    registered_peer_id = Some(peer_id);
+                    break;
+                }
                 _ => {}
             }
         }
@@ -613,6 +689,7 @@ async fn handle_host_peer_stream(
     write_task.abort();
     if let Some(pid) = registered_peer_id {
         txs.lock().await.remove(&pid);
+        conns.lock().await.remove(&pid);
         members.lock().await.remove(&pid);
         broadcast_host_state(&app, &members, &txs, &snap, &room_code, &full_code, &host_pid).await;
     }
@@ -707,14 +784,20 @@ async fn resolve_room_from_pkarr(room_code: &str) -> Result<String, String> {
 
     for rr in packet.resource_records("_tkfmap") {
         if let pkarr::dns::rdata::RData::TXT(txt) = &rr.rdata {
-            let raw = String::from_utf8_lossy(&txt.attributes().into_iter().flat_map(|(k, v)| {
-                let mut s = k.into_bytes();
-                if let Some(val) = v {
-                    s.push(b'=');
-                    s.extend(val.into_bytes());
-                }
-                s
-            }).collect::<Vec<u8>>()).to_string();
+            let raw = String::from_utf8_lossy(
+                &txt.attributes()
+                    .into_iter()
+                    .flat_map(|(k, v)| {
+                        let mut s = k.into_bytes();
+                        if let Some(val) = v {
+                            s.push(b'=');
+                            s.extend(val.into_bytes());
+                        }
+                        s
+                    })
+                    .collect::<Vec<u8>>(),
+            )
+            .to_string();
             if !raw.is_empty() {
                 return Ok(raw);
             }

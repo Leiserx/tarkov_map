@@ -8,6 +8,10 @@ fn default_server_addr() -> String {
     "127.0.0.1:8765".to_string()
 }
 
+fn default_lan_port() -> u16 {
+    18765
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AppSettings {
@@ -15,6 +19,10 @@ pub struct AppSettings {
     pub player_name: String,
     #[serde(default = "default_server_addr")]
     pub last_server_addr: String,
+    #[serde(default)]
+    pub lan_share_enabled: bool,
+    #[serde(default = "default_lan_port")]
+    pub lan_share_port: u16,
     pub screenshot_dir: String,
     pub logs_dir: String,
     pub auto_delete_screenshot: bool,
@@ -30,6 +38,8 @@ impl Default for AppSettings {
         Self {
             player_name: String::new(),
             last_server_addr: default_server_addr(),
+            lan_share_enabled: false,
+            lan_share_port: default_lan_port(),
             screenshot_dir: String::new(),
             logs_dir: String::new(),
             auto_delete_screenshot: false,
@@ -117,4 +127,12 @@ pub struct ServerRoomSummary {
     pub room_name: String,
     pub host_name: String,
     pub member_count: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct LanServerStatus {
+    pub running: bool,
+    pub url: String,
+    pub error: Option<String>,
 }

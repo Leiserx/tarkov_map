@@ -1,6 +1,7 @@
 import { onMounted, onUnmounted } from 'vue';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 import type {
+  LanServerStatus,
   MapDetectedPayload,
   ScreenshotCoord,
   ServerConnectionStatus,
@@ -17,12 +18,16 @@ interface TauriEventHandlers {
   onServerConnectionChanged: (payload: ServerConnectionStatus) => void;
   onServerRoomsUpdated: (payload: ServerRoomSummary[]) => void;
   onServerError: (message: string) => void;
+  onLanStatusChanged: (payload: LanServerStatus) => void;
 }
 
 export function useTauriEvents(handlers: TauriEventHandlers) {
   const unlisteners: UnlistenFn[] = [];
+  const isTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 
   onMounted(async () => {
+    if (!isTauri) return;
+
     unlisteners.push(
       await listen<ScreenshotCoord>('screenshot-coord', (event) => {
         handlers.onScreenshotCoord(event.payload);
@@ -68,6 +73,12 @@ export function useTauriEvents(handlers: TauriEventHandlers) {
     unlisteners.push(
       await listen<string>('server-error', (event) => {
         handlers.onServerError(event.payload);
+      })
+    );
+
+    unlisteners.push(
+      await listen<LanServerStatus>('lan-status-changed', (event) => {
+        handlers.onLanStatusChanged(event.payload);
       })
     );
   });

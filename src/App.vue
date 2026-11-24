@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
 import { ElMessage } from 'element-plus';
 import TopToolbar from '@/components/TopToolbar.vue';
@@ -10,12 +10,17 @@ import { useTauriEvents } from '@/composables/useTauriEvents';
 import { TARKOV_MAPS, getMapById } from '@/data/maps.config';
 import type {
   AppSettings,
+  LanServerStatus,
+  LanSnapshot,
   ScreenshotCoord,
   ServerConnectionStatus,
   ServerRoomSummary,
+  TeamMemberInfo,
   TeamRoomState,
   WatcherStatus,
 } from '@/types';
+
+const isTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 
 const canvasRef = ref<InstanceType<typeof MapCanvas> | null>(null);
 const settingsVisible = ref(false);
@@ -30,6 +35,8 @@ const latestCoord = ref<ScreenshotCoord | null>(null);
 const settings = ref<AppSettings>({
   playerName: '',
   lastServerAddr: '127.0.0.1:8765',
+  lanShareEnabled: false,
+  lanSharePort: 18765,
   screenshotDir: '',
   logsDir: '',
   autoDeleteScreenshot: false,
@@ -62,14 +69,48 @@ const serverStatus = ref<ServerConnectionStatus>({
 
 const serverRooms = ref<ServerRoomSummary[]>([]);
 
+const lanStatus = ref<LanServerStatus>({
+  running: false,
+  url: '',
+});
+
+const lanBrowserConnected = ref(false);
+const lanTeammates = ref<TeamMemberInfo[]>([]);
+
 const currentMap = computed(() => getMapById(settings.value.lastSelectedMapId));
 
 const teammates = computed(() =>
-  teamState.value.members.filter((m) => m.peerId !== teamState.value.selfPeerId)
+  isTauri
+    ? teamState.value.members.filter((m) => m.peerId !== teamState.value.selfPeerId)
+    : lanTeammates.value
+);
+
+function pushLanSnapshot() {
+  if (!isTauri) return;
+  const snapshot: LanSnapshot = {
+    mapId: settings.value.lastSelectedMapId,
+    playerName: settings.value.playerName,
+    latestCoord: latestCoord.value,
+    teammates: teammates.value,
+  };
+  void invoke('update_lan_snapshot', { snapshot }).catch(() => {});
+}
+
+watch(
+  [
+    () => settings.value.lastSelectedMapId,
+    () => settings.value.playerName,
+    latestCoord,
+    teammates,
+  ],
+  () => {
+    pushLanSnapshot();
+  },
+  { deep: true }
 );
 
 async function syncPositionToTeam() {
-  if (!teamState.value.inRoom) return;
+  if (!isTauri || !teamState.value.inRoom) return;
   try {
     await invoke('sync_team_position', {
       playerName: settings.value.playerName || '未命名玩家',
@@ -85,6 +126,7 @@ async function syncPositionToTeam() {
 
 async function persistSettings(next: AppSettings) {
   settings.value = { ...next };
+  if (!isTauri) return;
   try {
     watcherStatus.value = await invoke<WatcherStatus>('save_settings', { settings: next });
     void syncPositionToTeam();
@@ -94,6 +136,10 @@ async function persistSettings(next: AppSettings) {
 }
 
 function handleMapSelect(mapId: string) {
+  if (!isTauri) {
+    settings.value.lastSelectedMapId = mapId;
+    return;
+  }
   void persistSettings({ ...settings.value, lastSelectedMapId: mapId });
 }
 
@@ -102,6 +148,10 @@ function handleAutoSwitchToggle(val: boolean) {
 }
 
 function handleAutoCenterToggle(val: boolean) {
+  if (!isTauri) {
+    settings.value.autoCenterOnCoord = val;
+    return;
+  }
   void persistSettings({ ...settings.value, autoCenterOnCoord: val });
 }
 
@@ -243,20 +293,73 @@ useTauriEvents({
   onServerError(message) {
     ElMessage.error(message);
   },
+  onLanStatusChanged(payload) {
+    lanStatus.value = payload;
+  },
 });
 
+let lanWs: WebSocket | null = null;
+let lanReconnectTimer: number | null = null;
+let unmounted = false;
+
+function connectLanBrowserWs() {
+  if (unmounted || isTauri) return;
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  lanWs = new WebSocket(`${proto}//${location.host}/ws`);
+
+  lanWs.onopen = () => {
+    lanBrowserConnected.value = true;
+  };
+
+  lanWs.onmessage = (event) => {
+    try {
+      const snap = JSON.parse(String(event.data)) as LanSnapshot;
+      if (snap.mapId) {
+        settings.value.lastSelectedMapId = snap.mapId;
+      }
+      settings.value.playerName = snap.playerName ?? '';
+      latestCoord.value = snap.latestCoord ?? null;
+      lanTeammates.value = snap.teammates ?? [];
+    } catch {
+      // ignore invalid frame
+    }
+  };
+
+  lanWs.onclose = () => {
+    lanBrowserConnected.value = false;
+    if (!unmounted) {
+      lanReconnectTimer = window.setTimeout(connectLanBrowserWs, 3000);
+    }
+  };
+}
+
 onMounted(async () => {
+  if (!isTauri) {
+    connectLanBrowserWs();
+    return;
+  }
+
   try {
     settings.value = await invoke<AppSettings>('get_settings');
     watcherStatus.value = await invoke<WatcherStatus>('get_watcher_status');
     teamState.value = await invoke<TeamRoomState>('get_team_state');
     serverStatus.value = await invoke<ServerConnectionStatus>('server_get_status');
+    lanStatus.value = await invoke<LanServerStatus>('get_lan_status');
+    pushLanSnapshot();
     if (!settings.value.playerName?.trim()) {
       namePromptVisible.value = true;
     }
   } catch (err) {
     ElMessage.error(`初始化状态失败: ${String(err)}`);
   }
+});
+
+onUnmounted(() => {
+  unmounted = true;
+  if (lanReconnectTimer !== null) {
+    clearTimeout(lanReconnectTimer);
+  }
+  lanWs?.close();
 });
 
 async function submitInitialName() {
@@ -283,6 +386,8 @@ async function submitInitialName() {
       :watcher-status="watcherStatus"
       :screenshot-dir="settings.screenshotDir"
       :team-state="teamState"
+      :is-browser-mode="!isTauri"
+      :lan-connected="lanBrowserConnected"
       @update:selected-map-id="handleMapSelect"
       @update:auto-switch-map-by-log="handleAutoSwitchToggle"
       @update:auto-center-on-coord="handleAutoCenterToggle"
@@ -306,12 +411,15 @@ async function submitInitialName() {
     </main>
 
     <SettingsModal
+      v-if="isTauri"
       v-model:visible="settingsVisible"
       :settings="settings"
+      :lan-status="lanStatus"
       @save="persistSettings"
     />
 
     <TeamModal
+      v-if="isTauri"
       v-model:visible="teamModalVisible"
       :team-state="teamState"
       :server-status="serverStatus"
@@ -329,6 +437,7 @@ async function submitInitialName() {
     />
 
     <el-dialog
+      v-if="isTauri"
       v-model="namePromptVisible"
       title="欢迎使用 TarkovMap"
       width="400px"

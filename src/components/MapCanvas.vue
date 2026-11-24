@@ -76,7 +76,6 @@ const renderedLabels = computed(() => {
   }
   const rawLabels =
     (mapLabelsJson as Record<string, MapLabelItem[]>)[props.mapConfig.id] ?? [];
-  const baseUnit = Math.max(svgWidth.value, svgHeight.value) / 72;
 
   return rawLabels.map((item) => {
     const { svgX, svgY } = worldPointToSvg(
@@ -86,14 +85,11 @@ const renderedLabels = computed(() => {
       svgWidth.value,
       svgHeight.value
     );
-    const fontSize = ((item.size ?? 80) / 85) * baseUnit;
     return {
       text: item.text,
       svgX,
       svgY,
       rotation: item.rotation ?? 0,
-      fontSize,
-      strokeWidth: Math.max(0.8, fontSize * 0.24),
       isActiveLayer: item.layerId === activeLayerId.value,
     };
   });
@@ -410,23 +406,21 @@ defineExpose({
         :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
       >
         <g v-if="showLabels && renderedLabels.length > 0" class="map-labels-layer">
-          <text
+          <g
             v-for="(label, idx) in renderedLabels"
             :key="`${mapConfig.id}-lbl-${idx}`"
-            :x="label.svgX"
-            :y="label.svgY"
-            :font-size="label.fontSize"
-            :stroke-width="label.strokeWidth"
+            :transform="`translate(${label.svgX}, ${label.svgY}) scale(${markerScale})`"
             :opacity="label.isActiveLayer ? 1 : 0.22"
-            :transform="
-              label.rotation
-                ? `rotate(${label.rotation}, ${label.svgX}, ${label.svgY})`
-                : undefined
-            "
-            class="map-area-label"
           >
-            {{ label.text }}
-          </text>
+            <text
+              x="0"
+              y="0"
+              :transform="label.rotation ? `rotate(${label.rotation})` : undefined"
+              class="map-area-label"
+            >
+              {{ label.text }}
+            </text>
+          </g>
         </g>
 
         <g v-if="showPoints" class="map-points-layer">
@@ -435,10 +429,10 @@ defineExpose({
             v-for="(ext, idx) in renderedPoints.extracts"
             :key="`${mapConfig.id}-ext-${idx}`"
             :transform="`translate(${ext.svgX}, ${ext.svgY}) scale(${markerScale})`"
-            :opacity="ext.isActiveLayer ? 1 : 0.22"
+            :opacity="ext.isActiveLayer ? 1 : 0.6"
           >
             <circle cx="0" cy="0" r="5" :fill="ext.color" stroke="#0F1115" stroke-width="1.6" />
-            <text x="8" y="0" class="point-label" :fill="ext.color">
+            <text x="9" y="0" class="point-label" :fill="ext.color">
               {{ ext.name }}
             </text>
           </g>
@@ -448,7 +442,7 @@ defineExpose({
             v-for="(tr, idx) in renderedPoints.transits"
             :key="`${mapConfig.id}-tr-${idx}`"
             :transform="`translate(${tr.svgX}, ${tr.svgY}) scale(${markerScale})`"
-            :opacity="tr.isActiveLayer ? 1 : 0.22"
+            :opacity="tr.isActiveLayer ? 1 : 0.6"
           >
             <polygon
               points="0,-6 6,0 0,6 -6,0"
@@ -581,8 +575,10 @@ defineExpose({
 }
 
 .map-area-label {
+  font-size: 11px;
   fill: #f3f4f6;
   stroke: rgba(10, 12, 16, 0.92);
+  stroke-width: 2.8px;
   paint-order: stroke fill;
   stroke-linejoin: round;
   text-anchor: middle;
@@ -592,11 +588,11 @@ defineExpose({
 }
 
 .point-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   dominant-baseline: central;
   stroke: rgba(10, 12, 16, 0.95);
-  stroke-width: 3px;
+  stroke-width: 3.4px;
   paint-order: stroke fill;
   stroke-linejoin: round;
 }
