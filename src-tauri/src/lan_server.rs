@@ -4,7 +4,7 @@ use std::sync::Arc;
 use futures_util::SinkExt;
 use serde::{Deserialize, Serialize};
 use tauri::AppHandle;
-use tokio::io::AsyncWriteExt;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::{watch, Mutex};
 use tokio::task::JoinHandle;
@@ -142,8 +142,27 @@ async fn handle_lan_conn(
         return;
     }
 
-    // 2. 静态网页与 SVG 地图资源 HTTP 服务
-    let req_path = req_head
+    // 2. 静态网页与 SVG 地图资源 HTTP 服务（先读取消费请求头，避免关闭连接时触发 TCP RST）
+    let mut req_buf = vec![0u8; 4096];
+    let mut total = 0usize;
+    loop {
+        if total >= req_buf.len() {
+            break;
+        }
+        let Ok(read_n) = stream.read(&mut req_buf[total..]).await else {
+            return;
+        };
+        if read_n == 0 {
+            break;
+        }
+        total += read_n;
+        if req_buf[..total].windows(4).any(|w| w == b"\r\n\r\n") {
+            break;
+        }
+    }
+
+    let req_str = String::from_utf8_lossy(&req_buf[..total]);
+    let req_path = req_str
         .lines()
         .next()
         .and_then(|line| line.split_whitespace().nth(1))
@@ -156,10 +175,19 @@ async fn handle_lan_conn(
         clean_path
     };
 
-    let resolved = app
-        .asset_resolver()
+    let resolver = app.asset_resolver();
+    let resolved = resolver
         .get(asset_path.to_string())
-        .or_else(|| app.asset_resolver().get("index.html".to_string()));
+        .or_else(|| resolver.get(format!("/{asset_path}")))
+        .or_else(|| {
+            if !asset_path.contains('.') {
+                resolver
+                    .get("index.html".to_string())
+                    .or_else(|| resolver.get("/index.html".to_string()))
+            } else {
+                None
+            }
+        });
 
     match resolved {
         Some(asset) => {
@@ -181,6 +209,8 @@ async fn handle_lan_conn(
             let _ = stream.write_all(body).await;
         }
     }
+    let _ = stream.flush().await;
+    let _ = stream.shutdown().await;
 }
 
 fn detect_lan_ip() -> Option<String> {

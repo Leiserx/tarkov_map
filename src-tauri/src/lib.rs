@@ -6,7 +6,10 @@ mod server_client;
 mod types;
 mod watcher;
 
-use std::sync::Mutex;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Mutex,
+};
 use tauri::{AppHandle, Emitter, Manager, State};
 
 use crate::config::{detect_default_paths as detect_paths_impl, load_settings, save_settings_to_disk};
@@ -17,6 +20,7 @@ use crate::types::{AppSettings, DetectedPaths, LanServerStatus, TeamRoomState, W
 use crate::watcher::WatcherManager;
 
 struct AppState(Mutex<WatcherManager>);
+struct IsExiting(AtomicBool);
 
 #[tauri::command]
 fn get_settings(state: State<'_, AppState>) -> AppSettings {
@@ -205,6 +209,7 @@ pub fn run() {
             let mut manager = WatcherManager::new(initial_settings.clone());
             manager.restart(app.handle(), initial_settings.clone());
             app.manage(AppState(Mutex::new(manager)));
+            app.manage(IsExiting(AtomicBool::new(false)));
             app.manage(P2pManager::new());
             app.manage(ServerClientManager::new());
 
@@ -221,6 +226,27 @@ pub fn run() {
                 });
             }
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                let exiting = window.app_handle().state::<IsExiting>();
+                if exiting.0.swap(true, Ordering::SeqCst) {
+                    return;
+                }
+                api.prevent_close();
+                let app = window.app_handle().clone();
+                let win = window.clone();
+                tauri::async_runtime::spawn(async move {
+                    let p2p = app.state::<P2pManager>();
+                    let srv = app.state::<ServerClientManager>();
+                    let lan = app.state::<LanServerManager>();
+                    let _ = srv.leave_room(&app).await;
+                    srv.disconnect(&app).await;
+                    p2p.leave_room(&app).await;
+                    lan.stop().await;
+                    let _ = win.destroy();
+                });
+            }
         })
         .invoke_handler(tauri::generate_handler![
             get_settings,

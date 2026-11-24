@@ -13,7 +13,7 @@ use tokio_tungstenite::{accept_async, tungstenite::Message};
 
 const CODE_CHARSET: &[u8] = b"ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const ROOM_IDLE_TIMEOUT_SECS: u64 = 60;
-const MEMBER_IDLE_TIMEOUT_SECS: u64 = 25;
+const MEMBER_IDLE_TIMEOUT_SECS: u64 = 12;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -152,7 +152,7 @@ async fn main() {
     let sweeper_state = state.clone();
     tokio::spawn(async move {
         loop {
-            tokio::time::sleep(Duration::from_secs(10)).await;
+            tokio::time::sleep(Duration::from_secs(5)).await;
             sweep_idle_rooms(&sweeper_state).await;
         }
     });

@@ -246,7 +246,7 @@ impl P2pManager {
             tokio::spawn(async move {
                 let mut ticks = 0u32;
                 loop {
-                    tokio::time::sleep(Duration::from_secs(5)).await;
+                    tokio::time::sleep(Duration::from_secs(3)).await;
                     ticks += 1;
                     let now = now_secs();
                     let mut removed = Vec::new();
@@ -256,7 +256,7 @@ impl P2pManager {
                             if *pid == host_pid {
                                 return true;
                             }
-                            if now.saturating_sub(*last_seen) > 15 {
+                            if now.saturating_sub(*last_seen) > 10 {
                                 removed.push(pid.clone());
                                 false
                             } else {
@@ -272,12 +272,12 @@ impl P2pManager {
                             c.remove(&pid);
                         }
                     }
-                    // 每 5 秒定时向全体队员同步最新人数与成员状态
+                    // 每 3 秒定时向全体队员同步最新人数与成员状态
                     broadcast_host_state(&app_h, &members, &txs, &snap, &code, &full, &host_pid)
                         .await;
 
                     // 每 120 秒续期一次 DHT 记录
-                    if ticks % 24 == 0 {
+                    if ticks % 40 == 0 {
                         let c = code.clone();
                         let p = host_pid.clone();
                         tokio::spawn(async move {
@@ -377,7 +377,7 @@ impl P2pManager {
             let pid = self_peer_id.clone();
             tokio::spawn(async move {
                 loop {
-                    tokio::time::sleep(Duration::from_secs(5)).await;
+                    tokio::time::sleep(Duration::from_secs(3)).await;
                     if tx_c.send(WireMessage::Ping { peer_id: pid.clone() }).is_err() {
                         break;
                     }
@@ -385,7 +385,7 @@ impl P2pManager {
             })
         };
 
-        // 读取任务（同时监听 QUIC 连接关闭与 15 秒房主心跳超时）
+        // 读取任务（同时监听 QUIC 连接关闭与 10 秒房主心跳超时）
         let read_task = {
             let app_h = app.clone();
             let snap = self.state_snapshot.clone();
@@ -400,7 +400,7 @@ impl P2pManager {
                 loop {
                     let read_fut = reader.read_line(&mut line);
                     let res = tokio::select! {
-                        r = tokio::time::timeout(Duration::from_secs(16), read_fut) => r,
+                        r = tokio::time::timeout(Duration::from_secs(10), read_fut) => r,
                         _ = conn_watch.closed() => break,
                     };
 

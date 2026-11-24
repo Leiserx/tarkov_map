@@ -162,7 +162,7 @@ impl ServerClientManager {
             let tx_c = tx.clone();
             tokio::spawn(async move {
                 loop {
-                    tokio::time::sleep(Duration::from_secs(5)).await;
+                    tokio::time::sleep(Duration::from_secs(3)).await;
                     if let Ok(json) = serde_json::to_string(&ClientMsg::Ping) {
                         if tx_c.send(json).is_err() {
                             break;
@@ -342,7 +342,10 @@ impl ServerClientManager {
     }
 
     pub async fn leave_room(&self, app: &AppHandle) -> Result<(), String> {
-        let _ = self.send_msg(&ClientMsg::LeaveRoom).await;
+        if self.room_state.read().await.in_room {
+            let _ = self.send_msg(&ClientMsg::LeaveRoom).await;
+            tokio::time::sleep(Duration::from_millis(80)).await;
+        }
         *self.room_state.write().await = TeamRoomState::default();
         *self.is_host_flag.write().await = false;
         let _ = app.emit("team-state-updated", &TeamRoomState::default());

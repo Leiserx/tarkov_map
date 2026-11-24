@@ -28,18 +28,21 @@ const emit = defineEmits<{
   (e: 'openTeam'): void;
 }>();
 
-const appWindow = getCurrentWindow();
+const appWindow =
+  typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window
+    ? getCurrentWindow()
+    : null;
 
 function handleMinimize() {
-  void appWindow.minimize();
+  void appWindow?.minimize();
 }
 
 function handleToggleMaximize() {
-  void appWindow.toggleMaximize();
+  void appWindow?.toggleMaximize();
 }
 
 function handleClose() {
-  void appWindow.close();
+  void appWindow?.close();
 }
 </script>
 
