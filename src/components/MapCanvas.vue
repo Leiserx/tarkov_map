@@ -54,8 +54,8 @@ const playerSvgPos = computed<SvgPosition | null>(() => {
 });
 
 const markerScale = computed(() => {
-  const base = Math.max(svgWidth.value, svgHeight.value) / 1000;
-  return Math.max(0.25, base / Math.max(0.5, currentScale.value));
+  // .map-stage 宽高与 svgWidth/svgHeight 1:1 对应，因此 1/currentScale 即可让所有地图保持一致的屏幕像素大小
+  return Math.min(2.2, Math.max(0.2, 1 / Math.max(0.15, currentScale.value)));
 });
 
 /**
@@ -218,15 +218,44 @@ function selectLayer(layerId: string) {
   applyLayerVisibility();
 }
 
+let loadSeq = 0;
+const svgCache = new Map<string, string>();
+
+async function fetchSvgWithRetry(svgPath: string, retries = 3): Promise<string> {
+  const cached = svgCache.get(svgPath);
+  if (cached) return cached;
+
+  let lastErr: unknown;
+  for (let i = 0; i < retries; i++) {
+    try {
+      const resp = await fetch(svgPath);
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}`);
+      }
+      const text = await resp.text();
+      if (!text.includes('<svg')) {
+        throw new Error('无效的 SVG 响应内容');
+      }
+      svgCache.set(svgPath, text);
+      return text;
+    } catch (err) {
+      lastErr = err;
+      if (i < retries - 1) {
+        await new Promise((r) => setTimeout(r, 250));
+      }
+    }
+  }
+  throw lastErr;
+}
+
 async function loadMapSvg(svgPath: string) {
+  const seq = ++loadSeq;
   isLoading.value = true;
   loadError.value = '';
   try {
-    const resp = await fetch(svgPath);
-    if (!resp.ok) {
-      throw new Error(`HTTP ${resp.status}`);
-    }
-    const text = await resp.text();
+    const text = await fetchSvgWithRetry(svgPath);
+    if (seq !== loadSeq) return;
+
     const { w, h } = extractSvgDimensions(text);
     svgWidth.value = w;
     svgHeight.value = h;
@@ -234,13 +263,17 @@ async function loadMapSvg(svgPath: string) {
     activeLayerId.value = props.mapConfig.defaultLayer;
 
     await nextTick();
+    if (seq !== loadSeq) return;
     applyLayerVisibility();
     resetView();
   } catch (err) {
+    if (seq !== loadSeq) return;
     loadError.value = `无法加载地图文件 (${svgPath}): ${String(err)}`;
     svgContent.value = '';
   } finally {
-    isLoading.value = false;
+    if (seq === loadSeq) {
+      isLoading.value = false;
+    }
   }
 }
 

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Close, CopyDocument, Minus, Setting, UserFilled } from '@element-plus/icons-vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import type { ScreenshotCoord, TarkovMapConfig, TeamRoomState, WatcherStatus } from '@/types';
 
-defineProps<{
+const props = defineProps<{
   maps: TarkovMapConfig[];
   selectedMapId: string;
   autoSwitchMapByLog: boolean;
@@ -44,11 +45,19 @@ function handleToggleMaximize() {
 function handleClose() {
   void appWindow?.close();
 }
+
+const lastUpdateText = computed(() => {
+  if (!props.latestCoord) return '';
+  const d = new Date(props.latestCoord.timestamp * 1000);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+});
 </script>
 
 <template>
   <header class="top-toolbar" data-tauri-drag-region>
-    <div class="toolbar-left" data-tauri-drag-region>
+    <div class="toolbar-main" data-tauri-drag-region>
+      <div class="toolbar-left" data-tauri-drag-region>
       <div class="brand-badge" data-tauri-drag-region>TKFMAP</div>
 
       <el-select
@@ -87,15 +96,8 @@ function handleClose() {
       </div>
     </div>
 
-    <div class="toolbar-center mono-text" data-tauri-drag-region>
-      <template v-if="latestCoord">
-        <span class="coord-item"><b>X</b>{{ latestCoord.x.toFixed(1) }}</span>
-        <span class="coord-sep">|</span>
-        <span class="coord-item"><b>Y</b>{{ latestCoord.y.toFixed(1) }}</span>
-        <span class="coord-sep">|</span>
-        <span class="coord-item"><b>Z</b>{{ latestCoord.z.toFixed(1) }}</span>
-      </template>
-      <span v-else class="coord-placeholder">等待游戏内截图 (PrintScreen)...</span>
+    <div v-if="latestCoord" class="toolbar-center mono-text" data-tauri-drag-region>
+      <span class="coord-item"><b>定位更新</b>{{ lastUpdateText }}</span>
     </div>
 
     <div class="toolbar-right">
@@ -167,19 +169,20 @@ function handleClose() {
           <el-icon :size="14"><Setting /></el-icon>
           <span>设置</span>
         </button>
-
-        <div class="window-controls">
-          <button type="button" class="win-btn" title="最小化" @click="handleMinimize">
-            <el-icon :size="13"><Minus /></el-icon>
-          </button>
-          <button type="button" class="win-btn" title="最大化 / 还原" @click="handleToggleMaximize">
-            <el-icon :size="12"><CopyDocument /></el-icon>
-          </button>
-          <button type="button" class="win-btn win-btn-close" title="关闭" @click="handleClose">
-            <el-icon :size="13"><Close /></el-icon>
-          </button>
-        </div>
       </template>
+    </div>
+    </div>
+
+    <div v-if="!isBrowserMode" class="window-controls">
+      <button type="button" class="win-btn" title="最小化" @click="handleMinimize">
+        <el-icon :size="13"><Minus /></el-icon>
+      </button>
+      <button type="button" class="win-btn" title="最大化 / 还原" @click="handleToggleMaximize">
+        <el-icon :size="12"><CopyDocument /></el-icon>
+      </button>
+      <button type="button" class="win-btn win-btn-close" title="关闭" @click="handleClose">
+        <el-icon :size="13"><Close /></el-icon>
+      </button>
     </div>
   </header>
 </template>
@@ -191,11 +194,26 @@ function handleClose() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   background-color: var(--tarkov-bg-panel);
   border-bottom: 1px solid var(--tarkov-border);
   flex-shrink: 0;
   z-index: 20;
+}
+
+.toolbar-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.toolbar-main::-webkit-scrollbar {
+  display: none;
 }
 
 .toolbar-left,
@@ -203,6 +221,7 @@ function handleClose() {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .brand-badge {
@@ -347,7 +366,7 @@ function handleClose() {
 .window-controls {
   display: inline-flex;
   align-items: center;
-  margin-left: 4px;
+  flex-shrink: 0;
   padding-left: 8px;
   border-left: 1px solid var(--tarkov-border);
   gap: 2px;

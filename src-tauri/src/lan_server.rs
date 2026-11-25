@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use tauri::AppHandle;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
-use tokio::sync::{watch, Mutex};
+use tokio::sync::{oneshot, watch, Mutex};
 use tokio::task::JoinHandle;
 use tokio_tungstenite::{accept_async, tungstenite::Message};
 
@@ -24,6 +24,8 @@ pub struct LanSnapshot {
 pub struct LanServerManager {
     snapshot_tx: watch::Sender<String>,
     task: Arc<Mutex<Option<JoinHandle<()>>>>,
+    shutdown_tx: Arc<Mutex<Option<oneshot::Sender<()>>>>,
+    active_port: Arc<Mutex<Option<u16>>>,
     status: Arc<Mutex<LanServerStatus>>,
 }
 
@@ -39,6 +41,8 @@ impl LanServerManager {
         Self {
             snapshot_tx,
             task: Arc::new(Mutex::new(None)),
+            shutdown_tx: Arc::new(Mutex::new(None)),
+            active_port: Arc::new(Mutex::new(None)),
             status: Arc::new(Mutex::new(LanServerStatus::default())),
         }
     }
@@ -54,13 +58,26 @@ impl LanServerManager {
     }
 
     pub async fn stop(&self) {
-        if let Some(handle) = self.task.lock().await.take() {
-            handle.abort();
+        if let Some(tx) = self.shutdown_tx.lock().await.take() {
+            let _ = tx.send(());
         }
+        if let Some(handle) = self.task.lock().await.take() {
+            let _ = tokio::time::timeout(std::time::Duration::from_millis(500), handle).await;
+        }
+        *self.active_port.lock().await = None;
         *self.status.lock().await = LanServerStatus::default();
     }
 
     pub async fn restart(&self, app: &AppHandle, enabled: bool, port: u16) -> LanServerStatus {
+        // 若局域网服务已在相同端口正常运行，则无需销毁重建，避免端口重绑冲突
+        if enabled {
+            let cur_port = *self.active_port.lock().await;
+            let cur_status = self.status.lock().await.clone();
+            if cur_status.running && cur_port == Some(port) {
+                return cur_status;
+            }
+        }
+
         self.stop().await;
 
         if !enabled {
@@ -88,21 +105,32 @@ impl LanServerManager {
             url,
             error: None,
         };
+        *self.active_port.lock().await = Some(port);
         *self.status.lock().await = status.clone();
 
         let app_handle = app.clone();
         let tx = self.snapshot_tx.clone();
+        let (stop_tx, mut stop_rx) = oneshot::channel::<()>();
 
         let handle = tokio::spawn(async move {
-            while let Ok((stream, _)) = listener.accept().await {
-                let app_c = app_handle.clone();
-                let rx_c = tx.subscribe();
-                tokio::spawn(async move {
-                    handle_lan_conn(stream, app_c, rx_c).await;
-                });
+            loop {
+                tokio::select! {
+                    _ = &mut stop_rx => break,
+                    res = listener.accept() => {
+                        let Ok((stream, _)) = res else {
+                            break;
+                        };
+                        let app_c = app_handle.clone();
+                        let rx_c = tx.subscribe();
+                        tokio::spawn(async move {
+                            handle_lan_conn(stream, app_c, rx_c).await;
+                        });
+                    }
+                }
             }
         });
 
+        *self.shutdown_tx.lock().await = Some(stop_tx);
         *self.task.lock().await = Some(handle);
         status
     }
@@ -142,8 +170,8 @@ async fn handle_lan_conn(
         return;
     }
 
-    // 2. 静态网页与 SVG 地图资源 HTTP 服务（先读取消费请求头，避免关闭连接时触发 TCP RST）
-    let mut req_buf = vec![0u8; 4096];
+    // 2. 静态网页与 SVG 地图资源 HTTP 服务（先完整读取请求头，避免关闭连接时触发 TCP RST）
+    let mut req_buf = vec![0u8; 16384];
     let mut total = 0usize;
     loop {
         if total >= req_buf.len() {
@@ -162,11 +190,13 @@ async fn handle_lan_conn(
     }
 
     let req_str = String::from_utf8_lossy(&req_buf[..total]);
-    let req_path = req_str
+    let mut first_line_parts = req_str
         .lines()
         .next()
-        .and_then(|line| line.split_whitespace().nth(1))
-        .unwrap_or("/");
+        .unwrap_or("")
+        .split_whitespace();
+    let method = first_line_parts.next().unwrap_or("GET");
+    let req_path = first_line_parts.next().unwrap_or("/");
 
     let clean_path = req_path.split('?').next().unwrap_or("/").trim_start_matches('/');
     let asset_path = if clean_path.is_empty() {
@@ -191,13 +221,21 @@ async fn handle_lan_conn(
 
     match resolved {
         Some(asset) => {
+            let cache_control = if asset_path.starts_with("maps/") || asset_path.starts_with("assets/") {
+                "public, max-age=86400"
+            } else {
+                "no-cache"
+            };
             let header = format!(
-                "HTTP/1.1 200 OK\r\nContent-Type: {}\r\nContent-Length: {}\r\nCache-Control: no-cache\r\nConnection: close\r\n\r\n",
+                "HTTP/1.1 200 OK\r\nContent-Type: {}\r\nContent-Length: {}\r\nCache-Control: {}\r\nConnection: close\r\n\r\n",
                 asset.mime_type,
-                asset.bytes.len()
+                asset.bytes.len(),
+                cache_control
             );
             let _ = stream.write_all(header.as_bytes()).await;
-            let _ = stream.write_all(&asset.bytes).await;
+            if method != "HEAD" {
+                let _ = stream.write_all(&asset.bytes).await;
+            }
         }
         None => {
             let body = b"404 Not Found";
