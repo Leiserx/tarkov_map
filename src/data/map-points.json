@@ -1624,25 +1624,25 @@
       }
     ]
   },
-  "the-labyrinth": {
+  "labyrinth": {
     "extracts": [
       {
         "name": "向上通路",
         "faction": "pmc",
         "position": [
-          -7.31,
-          40.127
+          -7.096533,
+          38.92212
         ],
-        "layerId": "Ground_Level"
+        "layerId": "main"
       },
       {
         "name": "阿里阿德涅之线",
         "faction": "pmc",
         "position": [
-          19.443,
-          0.495
+          18.453121,
+          1.982186
         ],
-        "layerId": "Ground_Level"
+        "layerId": "main"
       }
     ],
     "transits": []

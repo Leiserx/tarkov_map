@@ -68,6 +68,7 @@ pub fn normalize_tarkov_location(raw: &str) -> Option<&'static str> {
         "sandbox" | "sandbox_high" | "groundzero" => Some("ground-zero"),
         "factory4_day" | "factory4_night" | "factory" => Some("factory"),
         "terminal" => Some("terminal"),
+        "labyrinth" | "6733700029c367a3d40b02af" => Some("labyrinth"),
         _ => None,
     }
 }

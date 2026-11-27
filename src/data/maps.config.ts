@@ -1,7 +1,7 @@
 import type { TarkovMapConfig } from '@/types';
 
 /**
- * 全官方地图配置（SVG 与校准边界数据源自 tarkov.dev）
+ * SVG 地图配置，已校准地图的世界坐标边界源自 tarkov.dev。
  */
 export const TARKOV_MAPS: TarkovMapConfig[] = [
   {
@@ -191,6 +191,24 @@ export const TARKOV_MAPS: TarkovMapConfig[] = [
       { id: 'Ground_Level', label: '地面层' },
       { id: 'First_Floor', label: '一楼室内' },
     ],
+  },
+  {
+    id: 'labyrinth',
+    nameZh: '迷宫',
+    nameEn: 'The Labyrinth',
+    svgPath: '/maps/Labyrinth.svg',
+    // EFTarkov 迷宫截图定位参数，相对于 1300 × 1200 地图画布左上角。
+    affine: {
+      originX: 484.291797,
+      originY: 601.657474,
+      xFromX: -0.011235,
+      xFromZ: 10.002859,
+      yFromX: 9.995898,
+      yFromZ: -0.00756,
+      headingOffset: -90,
+    },
+    defaultLayer: 'main',
+    layers: [{ id: 'main', label: '迷宫' }],
   },
 ];
 

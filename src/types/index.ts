@@ -4,6 +4,16 @@ export interface MapBounds {
   coordinateRotation: number;
 }
 
+export interface MapAffineCalibration {
+  originX: number;
+  originY: number;
+  xFromX: number;
+  xFromZ: number;
+  yFromX: number;
+  yFromZ: number;
+  headingOffset: number;
+}
+
 export interface MapLayerConfig {
   id: string;
   label: string;
@@ -35,14 +45,14 @@ export interface MapPointsData {
   transits: MapTransitItem[];
 }
 
-export interface TarkovMapConfig extends MapBounds {
+export type TarkovMapConfig = {
   id: string;
   nameZh: string;
   nameEn: string;
   svgPath: string;
   defaultLayer: string;
   layers: MapLayerConfig[];
-}
+} & (MapBounds | { affine: MapAffineCalibration });
 
 export interface ScreenshotCoord {
   x: number;

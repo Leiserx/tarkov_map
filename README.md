@@ -10,7 +10,7 @@
 ## 核心功能
 
 - **全官方地图 SVG 矢量渲染**
-  - 内置 11 张官方地图矢量 SVG（海关、森林、立交桥、储备站、海岸线、塔科夫街区、灯塔、中心区、工厂、实验室、终点站），支持纯中文名称下拉切换。
+  - 内置 12 张 SVG 地图（海关、森林、立交桥、储备站、海岸线、塔科夫街区、灯塔、中心区、工厂、实验室、终点站、迷宫），支持纯中文名称下拉切换。
 - **截图坐标与朝向实时定位**
   - 自动探测并监听 `Documents\Escape from Tarkov\Screenshots` 目录。
   - 游戏中按下 `PrintScreen` 截图后，自动解析文件名中的世界坐标 `(X, Y, Z)` 与四元数旋转，实时在地图上绘制位置红点、脉冲动效与朝向视野扇形。
@@ -68,4 +68,5 @@ npm run tauri build
 ## 数据来源致谢
 
 - 官方 SVG 地图与坐标边界参数源自 [the-hideout/tarkov-dev-svg-maps](https://github.com/the-hideout/tarkov-dev-svg-maps) 与 [tarkov.dev](https://tarkov.dev)
+- 迷宫底图和截图定位参数来自 [EFTarkov 迷宫互动地图](https://www.eftarkov.com/map/6733700029c367a3d40b02af)
 - 中文地区标注及撤离/转移点本地化数据整理自 [Re5pawnn/Tarkov_webmap](https://github.com/Re5pawnn/Tarkov_webmap)

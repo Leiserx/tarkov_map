@@ -42,15 +42,23 @@ const MAX_SCALE = 16;
 let pz: PanzoomObject | null = null;
 
 const playerSvgPos = computed<SvgPosition | null>(() => {
+  const { mapConfig } = props;
   if (!props.latestCoord || svgWidth.value <= 0 || svgHeight.value <= 0) {
     return null;
   }
-  return worldToSvgPosition(
+  const position = worldToSvgPosition(
     props.latestCoord,
-    props.mapConfig,
+    mapConfig,
     svgWidth.value,
     svgHeight.value
   );
+  if ('affine' in mapConfig && (
+    position.svgX < 0 || position.svgX > svgWidth.value ||
+    position.svgY < 0 || position.svgY > svgHeight.value
+  )) {
+    return null;
+  }
+  return position;
 });
 
 const markerScale = computed(() => {
@@ -71,17 +79,18 @@ const playerNameLayout = computed(() => {
 });
 
 const renderedLabels = computed(() => {
+  const { mapConfig } = props;
   if (!props.showLabels || svgWidth.value <= 0 || svgHeight.value <= 0) {
     return [];
   }
   const rawLabels =
-    (mapLabelsJson as Record<string, MapLabelItem[]>)[props.mapConfig.id] ?? [];
+    (mapLabelsJson as Record<string, MapLabelItem[]>)[mapConfig.id] ?? [];
 
   return rawLabels.map((item) => {
     const { svgX, svgY } = worldPointToSvg(
       item.position[0],
       item.position[1],
-      props.mapConfig,
+      mapConfig,
       svgWidth.value,
       svgHeight.value
     );
@@ -96,10 +105,11 @@ const renderedLabels = computed(() => {
 });
 
 const renderedPoints = computed(() => {
+  const { mapConfig } = props;
   if (!props.showPoints || svgWidth.value <= 0 || svgHeight.value <= 0) {
     return { extracts: [], transits: [] };
   }
-  const data = (mapPointsJson as Record<string, MapPointsData>)[props.mapConfig.id];
+  const data = (mapPointsJson as Record<string, MapPointsData>)[mapConfig.id];
   if (!data) return { extracts: [], transits: [] };
 
   const factionColor: Record<string, string> = {
@@ -112,7 +122,7 @@ const renderedPoints = computed(() => {
     const { svgX, svgY } = worldPointToSvg(
       item.position[0],
       item.position[1],
-      props.mapConfig,
+      mapConfig,
       svgWidth.value,
       svgHeight.value
     );
@@ -130,7 +140,7 @@ const renderedPoints = computed(() => {
     const { svgX, svgY } = worldPointToSvg(
       item.position[0],
       item.position[1],
-      props.mapConfig,
+      mapConfig,
       svgWidth.value,
       svgHeight.value
     );
@@ -146,16 +156,17 @@ const renderedPoints = computed(() => {
 });
 
 const renderedTeammates = computed(() => {
+  const { mapConfig } = props;
   if (svgWidth.value <= 0 || svgHeight.value <= 0) return [];
   return props.teammates
     .filter(
-      (m) => m.mapId === props.mapConfig.id && m.x !== null && m.z !== null
+      (m) => m.mapId === mapConfig.id && m.x !== null && m.z !== null
     )
     .map((m) => {
       const { svgX, svgY } = worldPointToSvg(
         m.x as number,
         m.z as number,
-        props.mapConfig,
+        mapConfig,
         svgWidth.value,
         svgHeight.value
       );

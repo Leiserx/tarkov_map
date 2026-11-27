@@ -37,6 +37,14 @@ export function worldPointToSvg(
   svgWidth: number,
   svgHeight: number
 ): { svgX: number; svgY: number } {
+  if ('affine' in mapConfig) {
+    const { originX, originY, xFromX, xFromZ, yFromX, yFromZ } = mapConfig.affine;
+    return {
+      svgX: originX + worldX * xFromX + worldZ * xFromZ,
+      svgY: originY + worldX * yFromX + worldZ * yFromZ,
+    };
+  }
+
   const rot = mapConfig.coordinateRotation;
   const [rx, rz] = rotatePoint2D(worldX, worldZ, rot);
 
@@ -68,6 +76,12 @@ export function worldToSvgPosition(
   svgHeight: number
 ): SvgPosition {
   const { svgX, svgY } = worldPointToSvg(coord.x, coord.z, mapConfig, svgWidth, svgHeight);
+  if ('affine' in mapConfig) {
+    const { qx, qy, qz, qw } = coord;
+    const yaw = Math.atan2(2 * (qw * qy + qx * qz), 1 - 2 * (qy * qy + qz * qz));
+    const headingDeg = (yaw * 180) / Math.PI + mapConfig.affine.headingOffset;
+    return { svgX, svgY, headingDeg };
+  }
   const headingDeg = computeHeadingDeg(coord, mapConfig.coordinateRotation);
 
   return { svgX, svgY, headingDeg };
