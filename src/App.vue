@@ -7,6 +7,7 @@ import MapCanvas from '@/components/MapCanvas.vue';
 import MapObjectivesPanel from '@/components/MapObjectivesPanel.vue';
 import MapObjectiveDetails from '@/components/MapObjectiveDetails.vue';
 import SettingsModal from '@/components/SettingsModal.vue';
+import GammaModal from '@/components/GammaModal.vue';
 import TeamModal from '@/components/TeamModal.vue';
 import { useTauriEvents } from '@/composables/useTauriEvents';
 import { TARKOV_MAPS, getMapById } from '@/data/maps.config';
@@ -30,6 +31,7 @@ const isTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window
 
 const canvasRef = ref<InstanceType<typeof MapCanvas> | null>(null);
 const settingsVisible = ref(false);
+const gammaVisible = ref(false);
 const teamModalVisible = ref(false);
 const teamLoading = ref(false);
 const namePromptVisible = ref(false);
@@ -453,6 +455,7 @@ async function submitInitialName() {
       @update:show-labels="showLabels = $event"
       @update:show-points="showPoints = $event"
       @open-settings="settingsVisible = true"
+      @open-gamma="gammaVisible = true"
       @open-team="teamModalVisible = true"
     />
 
@@ -486,6 +489,8 @@ async function submitInitialName() {
       @close="closeObjectiveDetails"
       @select="detailLocation = $event"
     />
+
+    <GammaModal v-if="isTauri" v-model:visible="gammaVisible" />
 
     <SettingsModal
       v-if="isTauri"

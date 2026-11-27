@@ -26,6 +26,7 @@ const emit = defineEmits<{
   (e: 'update:showLabels', val: boolean): void;
   (e: 'update:showPoints', val: boolean): void;
   (e: 'openSettings'): void;
+  (e: 'openGamma'): void;
   (e: 'openTeam'): void;
 }>();
 
@@ -164,6 +165,8 @@ const lastUpdateText = computed(() => {
           </span>
           <span v-else>组队</span>
         </button>
+
+        <button type="button" class="toolbar-chip" @click="emit('openGamma')">小蝴蝶</button>
 
         <button type="button" class="toolbar-chip" @click="emit('openSettings')">
           <el-icon :size="14"><Setting /></el-icon>

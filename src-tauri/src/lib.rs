@@ -1,4 +1,5 @@
 mod config;
+mod gamma;
 mod lan_server;
 mod p2p;
 mod parser;
@@ -13,6 +14,7 @@ use std::sync::{
 use tauri::{AppHandle, Emitter, Manager, State};
 
 use crate::config::{detect_default_paths as detect_paths_impl, load_settings, save_settings_to_disk};
+use crate::gamma::GammaTool;
 use crate::lan_server::{LanServerManager, LanSnapshot};
 use crate::p2p::P2pManager;
 use crate::server_client::{ServerClientManager, ServerConnectionStatus};
@@ -212,6 +214,7 @@ pub fn run() {
             app.manage(IsExiting(AtomicBool::new(false)));
             app.manage(P2pManager::new());
             app.manage(ServerClientManager::new());
+            app.manage(GammaTool::new(app.handle().clone()));
 
             let lan_mgr = LanServerManager::new();
             app.manage(lan_mgr);
@@ -237,6 +240,7 @@ pub fn run() {
                 let app = window.app_handle().clone();
                 let win = window.clone();
                 tauri::async_runtime::spawn(async move {
+                    app.state::<GammaTool>().close().await;
                     let p2p = app.state::<P2pManager>();
                     let srv = app.state::<ServerClientManager>();
                     let lan = app.state::<LanServerManager>();
@@ -265,6 +269,7 @@ pub fn run() {
             server_create_room,
             server_join_room,
             get_lan_status,
+            gamma::gamma_tool,
             update_lan_snapshot
         ])
         .run(tauri::generate_context!())
