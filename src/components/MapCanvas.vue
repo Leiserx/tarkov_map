@@ -6,6 +6,7 @@ import mapLabelsJson from '@/data/map-labels.json';
 import mapPointsJson from '@/data/map-points.json';
 import type {
   MapLabelItem,
+  MapObjectiveLocation,
   MapPointsData,
   ScreenshotCoord,
   SvgPosition,
@@ -21,7 +22,10 @@ const props = defineProps<{
   showPoints: boolean;
   playerName: string;
   teammates: TeamMemberInfo[];
+  objectiveLocations: MapObjectiveLocation[];
+  focusedObjectives: MapObjectiveLocation[] | null;
 }>();
+const emit = defineEmits<{ objectiveDetails: [locationId: string] }>();
 
 const viewportRef = ref<HTMLElement | null>(null);
 const stageRef = ref<HTMLElement | null>(null);
@@ -65,6 +69,21 @@ const markerScale = computed(() => {
   // .map-stage 宽高与 svgWidth/svgHeight 1:1 对应，因此 1/currentScale 即可让所有地图保持一致的屏幕像素大小
   return Math.min(2.2, Math.max(0.2, 1 / Math.max(0.15, currentScale.value)));
 });
+
+function projectObjective([x, z]: number[]) {
+  return worldPointToSvg(x, z, props.mapConfig, svgWidth.value, svgHeight.value);
+}
+
+const renderedObjectives = computed(() =>
+  props.objectiveLocations.map((location) => ({
+    ...location,
+    ...projectObjective(location.position),
+    polygon: location.area?.map((vertex) => {
+      const { svgX, svgY } = projectObjective(vertex);
+      return `${svgX},${svgY}`;
+    }).join(' '),
+  }))
+);
 
 /**
  * 将玩家自定义名称置于朝向扇形的反方向（+180°），并根据左右偏移自动对齐文本，避免遮挡红点与视野扇形
@@ -380,6 +399,42 @@ function centerPlayer() {
   pz.pan(panX, panY, { animate: true, force: true });
 }
 
+function focusObjectives(locations: MapObjectiveLocation[]) {
+  const viewport = viewportRef.value;
+  if (!pz || !viewport || !locations.length) return;
+
+  const layer = locations.some((location) => location.layerId === activeLayerId.value)
+    ? activeLayerId.value
+    : locations[0].layerId;
+  selectLayer(layer);
+  const points = locations
+    .filter((location) => location.layerId === layer)
+    .flatMap((location) => (location.area ?? [location.position]).map(projectObjective));
+  const xs = points.map((point) => point.svgX);
+  const ys = points.map((point) => point.svgY);
+  const left = Math.min(...xs);
+  const right = Math.max(...xs);
+  const top = Math.min(...ys);
+  const bottom = Math.max(...ys);
+  const targetScale = Math.min(
+    viewport.clientWidth / (right - left + 130),
+    viewport.clientHeight / (bottom - top + 130),
+    4
+  );
+  const scale = Math.max(MIN_SCALE, targetScale);
+  pz.zoom(scale, { animate: false });
+  pz.pan(
+    viewport.clientWidth / (2 * scale) - (left + right) / 2,
+    viewport.clientHeight / (2 * scale) - (top + bottom) / 2,
+    { animate: false, force: true }
+  );
+  currentScale.value = scale;
+}
+
+watch([() => props.focusedObjectives, isLoading], ([locations, loading]) => {
+  if (locations && !loading && !loadError.value) focusObjectives(locations);
+}, { flush: 'post' });
+
 watch(
   () => props.mapConfig.svgPath,
   (newPath) => {
@@ -441,6 +496,7 @@ defineExpose({
       <svg
         v-if="
           playerSvgPos ||
+          renderedObjectives.length > 0 ||
           renderedLabels.length > 0 ||
           renderedPoints.extracts.length > 0 ||
           renderedPoints.transits.length > 0 ||
@@ -449,6 +505,30 @@ defineExpose({
         class="marker-overlay"
         :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
       >
+        <g
+          v-for="location in renderedObjectives"
+          :key="location.id"
+          class="objective-target panzoom-exclude"
+          role="button"
+          tabindex="0"
+          :aria-label="location.title"
+          :opacity="location.layerId === activeLayerId ? 1 : 0.25"
+          @click="emit('objectiveDetails', location.id)"
+          @keydown.enter.prevent="emit('objectiveDetails', location.id)"
+          @keydown.space.prevent="emit('objectiveDetails', location.id)"
+        >
+          <polygon v-if="location.polygon" :points="location.polygon" class="objective-area">
+            <title>{{ location.title }}</title>
+          </polygon>
+          <circle
+            :cx="location.svgX"
+            :cy="location.svgY"
+            :r="5 * markerScale"
+            class="objective-pin"
+          >
+            <title>{{ location.title }}</title>
+          </circle>
+        </g>
         <g v-if="showLabels && renderedLabels.length > 0" class="map-labels-layer">
           <g
             v-for="(label, idx) in renderedLabels"
@@ -617,6 +697,18 @@ defineExpose({
   pointer-events: none;
   overflow: visible;
 }
+
+.objective-area,
+.objective-pin {
+  stroke: #ffd585;
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+.objective-target:focus-visible .objective-pin { stroke: white; stroke-width: 3px; }
+.objective-area { fill: #e9a63c40; pointer-events: visibleStroke; }
+.objective-pin { fill: #7a4e22; pointer-events: visiblePainted; }
 
 .map-area-label {
   font-size: 11px;

@@ -45,6 +45,26 @@ export interface MapPointsData {
   transits: MapTransitItem[];
 }
 
+export interface MapObjectiveLocation {
+  id: string;
+  title: string;
+  floor: string;
+  layerId: string;
+  position: number[];
+  area?: number[][];
+  images?: string[];
+}
+
+export interface MapObjectiveEntry {
+  id: string;
+  kind: 'task' | 'story';
+  name: string;
+  trader?: string;
+  search?: string;
+  objectives?: string[];
+  locations: MapObjectiveLocation[];
+}
+
 export type TarkovMapConfig = {
   id: string;
   nameZh: string;

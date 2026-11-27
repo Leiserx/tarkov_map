@@ -4,14 +4,20 @@ import { invoke } from '@tauri-apps/api/core';
 import { ElMessage } from 'element-plus';
 import TopToolbar from '@/components/TopToolbar.vue';
 import MapCanvas from '@/components/MapCanvas.vue';
+import MapObjectivesPanel from '@/components/MapObjectivesPanel.vue';
+import MapObjectiveDetails from '@/components/MapObjectiveDetails.vue';
 import SettingsModal from '@/components/SettingsModal.vue';
 import TeamModal from '@/components/TeamModal.vue';
 import { useTauriEvents } from '@/composables/useTauriEvents';
 import { TARKOV_MAPS, getMapById } from '@/data/maps.config';
+import mapObjectives from '@/data/map-objectives.json';
+import reserveObjectives from '@/data/reserve-objectives.json';
 import type {
   AppSettings,
   LanServerStatus,
   LanSnapshot,
+  MapObjectiveEntry,
+  MapObjectiveLocation,
   ScreenshotCoord,
   ServerConnectionStatus,
   ServerRoomSummary,
@@ -78,6 +84,59 @@ const lanBrowserConnected = ref(false);
 const lanTeammates = ref<TeamMemberInfo[]>([]);
 
 const currentMap = computed(() => getMapById(settings.value.lastSelectedMapId));
+const objectivesSidebarKey = 'tkfmap.objectivesSidebar.collapsed';
+const objectivesCollapsed = ref(true);
+try {
+  objectivesCollapsed.value = localStorage.getItem(objectivesSidebarKey) !== 'false';
+} catch {
+  // The sidebar can still be toggled when browser storage is unavailable.
+}
+watch(objectivesCollapsed, (collapsed) => {
+  try {
+    localStorage.setItem(objectivesSidebarKey, String(collapsed));
+  } catch {
+    // Keep the preference for the current session.
+  }
+});
+
+const objectivesByMap: Record<string, MapObjectiveEntry[]> = {
+  ...mapObjectives as Record<string, MapObjectiveEntry[]>,
+  reserve: reserveObjectives as MapObjectiveEntry[],
+};
+const objectiveEntries = computed(() => objectivesByMap[currentMap.value.id] ?? []);
+const selectedObjectives = ref<MapObjectiveLocation[] | null>([]);
+const focusedObjectives = ref<MapObjectiveLocation[] | null>(null);
+const detailEntry = ref<MapObjectiveEntry | null>(null);
+const detailLocation = ref<MapObjectiveLocation | null>(null);
+const visibleObjectives = computed(() =>
+  selectedObjectives.value ?? objectiveEntries.value.flatMap((entry) => entry.locations)
+);
+
+watch(() => currentMap.value.id, () => {
+  selectedObjectives.value = [];
+  focusedObjectives.value = null;
+  closeObjectiveDetails();
+});
+
+function updateObjectives(locations: MapObjectiveLocation[] | null, focus: MapObjectiveLocation[] | null) {
+  selectedObjectives.value = locations;
+  focusedObjectives.value = focus;
+}
+
+function openObjectiveDetails(entry: MapObjectiveEntry, location: MapObjectiveLocation | null = null) {
+  detailEntry.value = entry;
+  detailLocation.value = location;
+}
+
+function openObjectiveLocation(locationId: string) {
+  const entry = objectiveEntries.value.find((item) => item.locations.some((location) => location.id === locationId));
+  if (entry) openObjectiveDetails(entry, entry.locations.find((location) => location.id === locationId));
+}
+
+function closeObjectiveDetails() {
+  detailEntry.value = null;
+  detailLocation.value = null;
+}
 
 const teammates = computed(() =>
   isTauri
@@ -398,6 +457,14 @@ async function submitInitialName() {
     />
 
     <main class="map-workspace">
+      <MapObjectivesPanel
+        v-if="currentMap.id in objectivesByMap"
+        :key="currentMap.id"
+        v-model:collapsed="objectivesCollapsed"
+        :entries="objectiveEntries"
+        @select="updateObjectives"
+        @details="openObjectiveDetails"
+      />
       <MapCanvas
         ref="canvasRef"
         :map-config="currentMap"
@@ -407,8 +474,18 @@ async function submitInitialName() {
         :show-points="showPoints"
         :player-name="settings.playerName"
         :teammates="teammates"
+        :objective-locations="visibleObjectives"
+        :focused-objectives="focusedObjectives"
+        @objective-details="openObjectiveLocation"
       />
     </main>
+
+    <MapObjectiveDetails
+      :entry="detailEntry"
+      :location="detailLocation"
+      @close="closeObjectiveDetails"
+      @select="detailLocation = $event"
+    />
 
     <SettingsModal
       v-if="isTauri"
@@ -472,6 +549,7 @@ async function submitInitialName() {
 .map-workspace {
   position: relative;
   flex: 1;
+  min-height: 0;
   width: 100%;
   overflow: hidden;
   display: flex;
